@@ -14,10 +14,13 @@ export default function SignInPage() {
           <h1 className="text-4xl font-medium text-primary-foreground">
             ยินดีต้อนรับกลับ
           </h1>
-          <p className="text-muted-foreground">เข้าสู่ระบบเพื่อค้นหาโอกาสงานสาย IT ติดตามการสมัคร และรับคำแนะนำที่เหมาะกับคุณ</p>
+          <p className="text-muted-foreground">
+            เข้าสู่ระบบเพื่อค้นหาโอกาสงานสาย IT ติดตามการสมัคร
+            และรับคำแนะนำที่เหมาะกับคุณ
+          </p>
         </div>
       </div>
-      
+
       <div className="flex items-center justify-center">
         <div className="w-full max-w-lg space-y-5">
           <div>

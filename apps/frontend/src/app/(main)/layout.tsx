@@ -6,9 +6,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-      <main className="max-w-8xl mx-auto w-full">
-        <Navbar />
-        {children}
+      <main className="max-w-screen mx-auto w-full">
+      <Navbar />
+      {children}
       </main>
   );
 }
