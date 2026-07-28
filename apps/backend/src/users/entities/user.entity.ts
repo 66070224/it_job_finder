@@ -1,7 +1,9 @@
+import { Auth } from 'src/auths/entities/auth.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,6 +21,9 @@ export class User {
 
   @Column({ type: 'text', unique: true })
   email!: string;
+
+  @OneToMany(() => Auth, (auth) => auth.user)
+  auth!: Auth[];
 
   @Column('boolean')
   email_verified!: boolean;
