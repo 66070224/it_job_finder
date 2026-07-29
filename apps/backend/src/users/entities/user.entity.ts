@@ -41,7 +41,7 @@ export class User {
   role!: UserRole;
 
   @Column({ type: 'boolean', default: false })
-  profileCompleted!: boolean;
+  profile_completed!: boolean;
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;
