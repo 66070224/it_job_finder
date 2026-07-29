@@ -31,10 +31,10 @@ export class User {
   @Column({ type: 'text', nullable: true })
   avatar_url!: string | null;
 
-  @Column({ type: 'text', nullable: true })
+  @Column('text')
   first_name!: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column('text')
   last_name!: string;
 
   @Column({ type: 'enum', enum: UserRole })
