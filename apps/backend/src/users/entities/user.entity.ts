@@ -14,6 +14,10 @@ export enum UserRole {
   ADMIN = 'ADMIN',
 }
 
+export type PublicUserRole =
+  | UserRole.JOB_SEEKER
+  | UserRole.COMPANY;
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')

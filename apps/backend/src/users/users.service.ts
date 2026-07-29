@@ -3,14 +3,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { isEmail, isUUID } from 'class-validator';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User, UserRole } from './entities/user.entity';
+import { PublicUserRole, User, UserRole } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
-  create(email: string, first_name: string, last_name: string, role: UserRole) {
+  create(email: string, first_name: string, last_name: string, role: UserRole|PublicUserRole) {
     const user = this.userRepository.create({
       email,
       first_name,
