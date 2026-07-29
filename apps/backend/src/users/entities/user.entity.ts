@@ -40,6 +40,9 @@ export class User {
   @Column({ type: 'enum', enum: UserRole })
   role!: UserRole;
 
+  @Column({ type: 'boolean', default: false })
+  profileCompleted!: boolean;
+
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;
 
