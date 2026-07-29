@@ -59,7 +59,7 @@ export class AuthsController {
 
     if (!user) throw new UnauthorizedException('email or password are wrong');
 
-    return user;
+    return this.authsService.signin(user.email, user.sub);
   }
 
   @Get()

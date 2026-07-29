@@ -11,11 +11,14 @@ import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as b from 'bcrypt';
 import { isEmail } from 'class-validator';
+import { access } from 'fs';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthsService {
   constructor(
     @InjectRepository(Auth) private authRepository: Repository<Auth>,
+    private jwtService: JwtService,
   ) {}
   async createPasswordAuth(
     user: User,
@@ -45,6 +48,12 @@ export class AuthsService {
     if (existAuth === null) return null;
     if (!(await b.compare(password, existAuth.hashed_password!))) return null;
     return { email: existAuth.user.email, sub: existAuth.user.id };
+  }
+
+  async signin(email: string, sub: string) {
+    return {
+      access_token: this.jwtService.sign({ email, sub }),
+    };
   }
 
   findOneByEmailAndProvider(
