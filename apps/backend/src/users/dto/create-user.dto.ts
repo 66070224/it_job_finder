@@ -19,6 +19,14 @@ export class CreateUserDto {
   @IsOptional()
   email_verified?: boolean;
 
+  @IsString()
+  @MinLength(3)
+  first_name!: string;
+
+  @IsString()
+  @MinLength(3)
+  last_name!: string;
+
   @IsUrl()
   @ValidateIf((o, v) => v !== null && v !== undefined && v !== '')
   avatar_url?: string | null;
