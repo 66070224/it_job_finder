@@ -25,16 +25,16 @@ export class User {
   @OneToMany(() => Auth, (auth) => auth.user)
   auth!: Auth[];
 
-  @Column('boolean')
+  @Column({ type: 'boolean', default: false })
   email_verified!: boolean;
 
   @Column({ type: 'text', nullable: true })
   avatar_url!: string | null;
 
-  @Column('text')
+  @Column({ type: 'text', nullable: true })
   first_name!: string;
 
-  @Column('text')
+  @Column({ type: 'text', nullable: true })
   last_name!: string;
 
   @Column({ type: 'enum', enum: UserRole })
