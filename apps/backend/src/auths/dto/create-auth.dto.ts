@@ -1,12 +1,13 @@
 import {
   IsEmail,
   IsEnum,
+  IsIn,
   IsString,
   IsUrl,
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { UserRole } from 'src/users/entities/user.entity';
+import { type PublicUserRole, UserRole } from 'src/users/entities/user.entity';
 
 export class CreateAuthDto {
   @IsEmail()
@@ -28,6 +29,6 @@ export class CreateAuthDto {
   @ValidateIf((o, v) => v !== null && v !== undefined && v !== '')
   avatar_url?: string | null;
 
-  @IsEnum(UserRole)
-  role!: UserRole;
+  @IsIn([UserRole.JOB_SEEKER, UserRole.COMPANY])
+  role!: PublicUserRole;
 }

@@ -34,23 +34,25 @@ export class AuthsService {
     return b.hash(password, 10);
   }
 
-  async validatePasswordUser(email: string, password: string) {
-    const auth = await this.authRepository.findOne({
+  async validatePasswordUser(
+    email: string,
+    password: string,
+  ): Promise<{ email: string; sub: string } | null> {
+    const existAuth = await this.authRepository.findOne({
       where: { user: { email: email }, provider_type: ProviderTypes.PASSWORD },
+      relations: { user: true },
     });
-    if (auth === null)
-      throw new UnauthorizedException(
-        'Could not find user match with this email',
-      );
-    const isPassed = await b.compare(password, auth.hashed_password!);
+    if (existAuth === null) return null;
+    if (!(await b.compare(password, existAuth.hashed_password!))) return null;
+    return { email: existAuth.user.email, sub: existAuth.user.id };
   }
 
   findOneByEmailAndProvider(
-    user: User,
+    email: string,
     provider: ProviderTypes,
   ): Promise<Auth | null> {
     return this.authRepository.findOne({
-      where: { user: user, provider_type: provider },
+      where: { user: { email }, provider_type: provider },
     });
   }
 

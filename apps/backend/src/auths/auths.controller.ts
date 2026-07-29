@@ -8,12 +8,14 @@ import {
   Delete,
   ConflictException,
   Response,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthsService } from './auths.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { ProviderTypes } from './entities/auth.entity';
+import { SignInDTO } from './dto/sign-in.dto';
 @Controller('auths')
 export class AuthsController {
   constructor(
@@ -23,7 +25,6 @@ export class AuthsController {
 
   @Post('password')
   async create(@Body() createAuthDto: CreateAuthDto) {
-    console.log(createAuthDto);
     const existedUser = await this.usersService.findOneByEmail(
       createAuthDto.email,
     );
@@ -47,6 +48,18 @@ export class AuthsController {
     );
 
     return 'Done';
+  }
+
+  @Post('signin')
+  async signIn(@Body() dto: SignInDTO) {
+    const user = await this.authsService.validatePasswordUser(
+      dto.email,
+      dto.password,
+    );
+
+    if (!user) throw new UnauthorizedException('email or password are wrong');
+
+    return user;
   }
 
   @Get()
