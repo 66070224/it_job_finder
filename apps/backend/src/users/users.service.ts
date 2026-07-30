@@ -10,12 +10,17 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
-  create(email: string, first_name: string, last_name: string, role: UserRole|PublicUserRole) {
+  create(
+    email: string,
+    first_name: string,
+    last_name: string,
+    avatar_url?: string,
+  ) {
     const user = this.userRepository.create({
       email,
       first_name,
       last_name,
-      role,
+      avatar_url,
     });
     return this.userRepository.save(user);
   }
@@ -35,6 +40,10 @@ export class UsersService {
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
+  }
+
+  updateEmailVerified(id: string, email_verified: boolean) {
+    return this.userRepository.update(id, { email_verified: email_verified });
   }
 
   remove(id: number) {
