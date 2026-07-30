@@ -23,9 +23,9 @@ export default function JobCard({
   job_type,
 }: JobCardProps) {
   return (
-    <Card>
+    <Card className="hover:ring-1.5 hover:ring-blue-500/90 hover:shadow-xl">
       <CardHeader>
-        <CardTitle>{header}</CardTitle>
+        <CardTitle >{header}</CardTitle>
         <CardDescription className="font-light">{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex gap-2">

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 interface Tagprops {
-  text?: string;
+  text?: React.ReactNode;
   className?: string;
 }
 export function Tag({ text, className }: Tagprops) {
