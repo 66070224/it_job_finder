@@ -7,15 +7,16 @@ import {
   Param,
   Delete,
   ConflictException,
-  Response,
-  UnauthorizedException,
+  UseGuards,
+  Req,
+  Request,
 } from '@nestjs/common';
 import { AuthsService } from './auths.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { ProviderTypes } from './entities/auth.entity';
-import { SignInDTO } from './dto/sign-in.dto';
+import { AuthGuard } from '@nestjs/passport';
 @Controller('auths')
 export class AuthsController {
   constructor(
@@ -34,14 +35,13 @@ export class AuthsController {
       createAuthDto.email,
       createAuthDto.first_name,
       createAuthDto.last_name,
-      createAuthDto.role,
     );
 
     const hashed_password = await this.authsService.hashPassword(
       createAuthDto.password,
     );
 
-    await this.authsService.createPasswordAuth(
+    await this.authsService.createAuth(
       newUser,
       ProviderTypes.PASSWORD,
       hashed_password,
@@ -50,16 +50,20 @@ export class AuthsController {
     return 'Done';
   }
 
+  @UseGuards(AuthGuard('password'))
   @Post('signin')
-  async signIn(@Body() dto: SignInDTO) {
-    const user = await this.authsService.validatePasswordUser(
-      dto.email,
-      dto.password,
-    );
+  async signIn(@Request() req: { user: { email: string; sub: string } }) {
+    return this.authsService.signin(req.user.email, req.user.sub);
+  }
 
-    if (!user) throw new UnauthorizedException('email or password are wrong');
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  async oauthLogin(@Req() req) {}
 
-    return this.authsService.signin(user.email, user.sub);
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  async oauthCallback(@Req() req) {
+    return this.authsService.signin(req.user.email, req.user.sub);
   }
 
   @Get()
