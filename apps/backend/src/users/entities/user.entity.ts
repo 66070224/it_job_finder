@@ -14,9 +14,7 @@ export enum UserRole {
   ADMIN = 'ADMIN',
 }
 
-export type PublicUserRole =
-  | UserRole.JOB_SEEKER
-  | UserRole.COMPANY;
+export type PublicUserRole = UserRole.JOB_SEEKER | UserRole.COMPANY;
 
 @Entity('users')
 export class User {
@@ -41,11 +39,8 @@ export class User {
   @Column('text')
   last_name!: string;
 
-  @Column({ type: 'enum', enum: UserRole })
-  role!: UserRole;
-
-  @Column({ type: 'boolean', default: false })
-  profile_completed!: boolean;
+  @Column({ type: 'enum', enum: UserRole, nullable: true })
+  role!: UserRole | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;
