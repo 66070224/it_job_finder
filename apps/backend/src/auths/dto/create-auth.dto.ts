@@ -24,11 +24,4 @@ export class CreateAuthDto {
   @IsString()
   @MinLength(3)
   last_name!: string;
-
-  @IsUrl()
-  @ValidateIf((o, v) => v !== null && v !== undefined && v !== '')
-  avatar_url?: string | null;
-
-  @IsIn([UserRole.JOB_SEEKER, UserRole.COMPANY])
-  role!: PublicUserRole;
 }
