@@ -9,7 +9,8 @@ import {
 
 export enum ProviderTypes {
   PASSWORD = 'PASSWORD',
-  GMAIL = 'GMAIL',
+  GOOGLE = 'GOOGLE',
+  GITHUB = 'GITHUB',
 }
 
 @Entity('auths')
