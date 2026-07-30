@@ -53,7 +53,8 @@ export class AuthsService {
     };
   }
 
-  async validateGoogleUser(
+  async validateOAuthUser(
+    provider_type: ProviderTypes,
     providerID: string,
     email: string,
     first_name: string,
@@ -63,7 +64,7 @@ export class AuthsService {
     const existAuth = await this.authRepository.findOne({
       where: {
         user: { email: email },
-        provider_type: ProviderTypes.GOOGLE,
+        provider_type: provider_type,
         provider_user_id: providerID,
       },
       relations: { user: true },
@@ -80,7 +81,7 @@ export class AuthsService {
       }
       const newAuth = await this.createAuth(
         existUser,
-        ProviderTypes.GOOGLE,
+        provider_type,
         undefined,
         providerID,
       );
@@ -95,7 +96,7 @@ export class AuthsService {
     );
     const newAuth = await this.createAuth(
       newUser,
-      ProviderTypes.GOOGLE,
+      provider_type,
       undefined,
       providerID,
     );
