@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+
 export default function Home() {
   return (
     <>
@@ -22,7 +23,8 @@ export default function Home() {
             <span className="text-primary"> พร้อมกับผู้ช่วย AI </span>
           </h1>
           <p className="text-muted-foreground">
-            ค้นหางาน สร้างโปรไฟล์ ติดต่อบริษัท และรับคำแนะนำในการพัฒนาทักษะสำหรับสายงาน IT
+            ค้นหางาน สร้างโปรไฟล์ ติดต่อบริษัท
+            และรับคำแนะนำในการพัฒนาทักษะสำหรับสายงาน IT
           </p>
 
           {/* searchbar -> components later */}
@@ -38,7 +40,7 @@ export default function Home() {
         </div>
 
         {/* ด้านขวา */}
-        <div className="max-w-xl">asdasd</div>
+        <div></div>
       </section>
 
       {/* section แพลตฟอร์มเราทำอะไรได้บ้าง */}
@@ -73,7 +75,8 @@ export default function Home() {
               <CardHeader>
                 <CardTitle className="font-bold">Real-Time Chat</CardTitle>
                 <CardDescription>
-                  พูดคุยกับบริษัท นัดสัมภาษณ์ และติดตามการสมัครงานได้แบบเรียลไทม์
+                  พูดคุยกับบริษัท นัดสัมภาษณ์
+                  และติดตามการสมัครงานได้แบบเรียลไทม์
                 </CardDescription>
               </CardHeader>
             </Card>
