@@ -1,14 +1,6 @@
 import { BackButton } from "@/components/ui/backbutton";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 
 export default function JobDetail() {
@@ -32,23 +24,60 @@ export default function JobDetail() {
       </header>
 
       <section className="grid grid-cols-[4fr_2fr] gap-5">
-        <Card className="p-5">
-          <CardHeader>
-            <CardTitle className="font-sans font-medium text-xl">
-              รายละเอียดงาน
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc list-inside space-y-2 font-light">
-              <li>พัฒนาและดูแล Web Application ด้วย React และ TypeScript</li>
-              <li>ทำงานร่วมกับทีมออกแบบเพื่อสร้าง UI ที่ตอบสนองผู้ใช้</li>
-              <li>เขียน Unit Test และดูแลคุณภาพโค้ด</li>
-              <li>ร่วม Code Review กับทีมวิศวกร</li>
-              <li>คุ้นเคยกับ REST API และ Git</li>
-              <li>สื่อสารภาษาอังกฤษได้ในระดับพื้นฐาน</li>
-            </ul>
-          </CardContent>
-        </Card>
+        <div className="space-y-4">
+          <Card className="p-5">
+            <CardHeader>
+              <CardTitle className="font-sans font-medium text-xl">
+                รายละเอียดงาน
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="list-disc list-inside space-y-2 font-light">
+                <li>พัฒนาและดูแล Web Application ด้วย React และ TypeScript</li>
+                <li>ทำงานร่วมกับทีมออกแบบเพื่อสร้าง UI ที่ตอบสนองผู้ใช้</li>
+                <li>เขียน Unit Test และดูแลคุณภาพโค้ด</li>
+                <li>ร่วม Code Review กับทีมวิศวกร</li>
+                <li>คุ้นเคยกับ REST API และ Git</li>
+                <li>สื่อสารภาษาอังกฤษได้ในระดับพื้นฐาน</li>
+              </ul>
+            </CardContent>
+          </Card>
+          <Card className="p-5">
+            <CardHeader>
+              <CardTitle className="font-sans font-medium text-xl">
+                รายละเอียดงาน
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="list-disc list-inside space-y-2 font-light">
+                <li>พัฒนาและดูแล Web Application ด้วย React และ TypeScript</li>
+                <li>ทำงานร่วมกับทีมออกแบบเพื่อสร้าง UI ที่ตอบสนองผู้ใช้</li>
+                <li>เขียน Unit Test และดูแลคุณภาพโค้ด</li>
+                <li>ร่วม Code Review กับทีมวิศวกร</li>
+                <li>คุ้นเคยกับ REST API และ Git</li>
+                <li>สื่อสารภาษาอังกฤษได้ในระดับพื้นฐาน</li>
+              </ul>
+            </CardContent>
+          </Card>
+          <Card className="p-5">
+            <CardHeader>
+              <CardTitle className="font-sans font-medium text-xl">
+                รายละเอียดงาน
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="list-disc list-inside space-y-2 font-light">
+                <li>พัฒนาและดูแล Web Application ด้วย React และ TypeScript</li>
+                <li>ทำงานร่วมกับทีมออกแบบเพื่อสร้าง UI ที่ตอบสนองผู้ใช้</li>
+                <li>เขียน Unit Test และดูแลคุณภาพโค้ด</li>
+                <li>ร่วม Code Review กับทีมวิศวกร</li>
+                <li>คุ้นเคยกับ REST API และ Git</li>
+                <li>สื่อสารภาษาอังกฤษได้ในระดับพื้นฐาน</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+
         <div className="flex flex-col gap-5">
           <Card className="">
             <CardHeader>
