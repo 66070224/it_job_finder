@@ -4,7 +4,7 @@ import { Logo } from "@/components/ui/logo";
 
 export default function SignUpPage() {
   return (
-    <div className="grid grid-cols-[2fr_3fr] min-h-screen">
+    <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] min-h-screen">
       <div
         className="bg-secondary-foreground p-15 bg-[linear-gradient(to_right,rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.08)_1px,transparent_1px)]
       bg-size-[40px_40px]"
@@ -18,7 +18,7 @@ export default function SignUpPage() {
         </div>
       </div>
       
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center p-10">
         <div className="w-full max-w-lg space-y-5">
           <div>
             <h1 className="text-4xl font-medium">สมัครสมาชิก</h1>

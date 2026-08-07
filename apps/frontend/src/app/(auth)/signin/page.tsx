@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import SignInForm from "./_components/signin-form";
+import GoogleSignIn from "./_components/google-signin";
 
 export default function SignInPage() {
   return (
-    <div className="grid grid-cols-[2fr_3fr] min-h-screen">
+    <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] min-h-screen">
       <div
         className="bg-secondary-foreground p-15 bg-[linear-gradient(to_right,rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.08)_1px,transparent_1px)]
       bg-size-[40px_40px]"
@@ -21,13 +22,19 @@ export default function SignInPage() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center p-10">
         <div className="w-full max-w-lg space-y-5">
           <div>
             <h1 className="text-4xl font-medium">เข้าสู่ระบบ</h1>
             <p className="text-muted-foreground">ยินดีต้อนรับกลับสู่ ITJob</p>
           </div>
           <SignInForm />
+          <div className="flex items-center gap-4 mx-2">
+            <div className="h-px flex-1 bg-border" />
+            <span className="text-sm text-muted-foreground">หรือ</span>
+            <div className="h-px flex-1 bg-border" />
+          </div>
+          <GoogleSignIn />
           <p className="text-center">
             ยังไม่มีบัญชี?{" "}
             <Link
