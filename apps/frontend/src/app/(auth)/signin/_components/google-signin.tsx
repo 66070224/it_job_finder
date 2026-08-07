@@ -5,18 +5,16 @@ import { redirect } from "next/navigation";
 
 export default function GoogleSignIn() {
   const googleSignin = () => {
-    redirect(`{process.env.BACKEND_URL}/auths/google`);
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/auths/google`;
   };
   return (
-    <form onSubmit={googleSignin}>
-      <Button
-        type="submit"
-        className="py-5 cursor-pointer border-border w-full"
-        variant="secondary"
-      >
-        <FcGoogle className="mr-2 h-5 w-5" />
-        เข้าสู่ระบบด้วย Google
-      </Button>
-    </form>
+    <Button
+      onClick={googleSignin}
+      className="py-5 cursor-pointer border-border w-full"
+      variant="secondary"
+    >
+      <FcGoogle className="mr-2 h-5 w-5" />
+      เข้าสู่ระบบด้วย Google
+    </Button>
   );
 }
