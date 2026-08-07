@@ -7,45 +7,67 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-
 export default function Home() {
   return (
     <>
       {/* section หลัก */}
       <section
-        className="flex grid-cols-2 items-center justify-around p-20
+        className="flex items-center justify-center p-20
         bg-radial-[600px_300px_at_80%_-10%] from-sky-100 to-white"
       >
-        {/* ด้านซ้าย */}
-        <div className="max-w-md leading-relaxed space-y-6">
-          <h1 className="text-4xl font-medium">
-            แพลตฟอร์มหางานสาย IT ที่ออกแบบมาเพื่อคุณ
-            <span className="text-primary"> พร้อมกับผู้ช่วย AI </span>
-          </h1>
-          <p className="text-muted-foreground">
-            ค้นหางาน สร้างโปรไฟล์ ติดต่อบริษัท
-            และรับคำแนะนำในการพัฒนาทักษะสำหรับสายงาน IT
-          </p>
+        <div className="flex w-full max-w-screen-2xl grid-cols-1 lg:grid-cols-2 justify-around">
+          {/* ด้านซ้าย */}
+          <div className="max-w-md leading-relaxed space-y-6">
+            <h1 className="text-4xl font-medium">
+              แพลตฟอร์มหางานสาย IT ที่ออกแบบมาเพื่อคุณ
+              <span className="text-primary"> พร้อมกับผู้ช่วย AI </span>
+            </h1>
+            <p className="text-muted-foreground">
+              ค้นหางาน สร้างโปรไฟล์ ติดต่อบริษัท
+              และรับคำแนะนำในการพัฒนาทักษะสำหรับสายงาน IT
+            </p>
 
-          {/* searchbar -> components later */}
-          <div className="relative">
-            <Input
-              className="p-6 inset-shadow-2xs bg-white"
-              placeholder="ค้นหา เช่น Frontend Developer"
-            />
-            <Button className="absolute p-5 right-1 top-1/2 -translate-y-1/2">
-              ค้นหางาน
-            </Button>
+            {/* searchbar -> components later */}
+            <div className="relative">
+              <Input
+                className="p-6 inset-shadow-2xs bg-white"
+                placeholder="ค้นหา เช่น Frontend Developer"
+              />
+              <Button className="absolute p-5 right-1 top-1/2 -translate-y-1/2">
+                ค้นหางาน
+              </Button>
+            </div>
           </div>
-        </div>
 
-        {/* ด้านขวา */}
-        <div></div>
+          {/* ด้านขวา */}
+          <div className="max-w-md leading-relaxed space-y-6">
+            <h1 className="text-4xl font-medium">
+              แพลตฟอร์มหางานสาย IT ที่ออกแบบมาเพื่อคุณ
+              <span className="text-primary"> พร้อมกับผู้ช่วย AI </span>
+            </h1>
+            <p className="text-muted-foreground">
+              ค้นหางาน สร้างโปรไฟล์ ติดต่อบริษัท
+              และรับคำแนะนำในการพัฒนาทักษะสำหรับสายงาน IT
+            </p>
+
+            {/* searchbar -> components later */}
+            <div className="relative">
+              <Input
+                className="p-6 inset-shadow-2xs bg-white"
+                placeholder="ค้นหา เช่น Frontend Developer"
+              />
+              <Button className="absolute p-5 right-1 top-1/2 -translate-y-1/2">
+                ค้นหางาน
+              </Button>
+            </div>
+          </div>
+
+        </div>
       </section>
 
       {/* section แพลตฟอร์มเราทำอะไรได้บ้าง */}
-      <section className="flex flex-col items-center justify-center p-20 bg-neutral-50 space-y-7">
-        <div className="container space-y-7 px-20">
+      <section className="flex items-center justify-center p-20 bg-neutral-50 space-y-7">
+        <div className="container space-y-7">
           <div className="container leading-relaxed text-center">
             <h1 className="text-2xl font-medium">
               แพลตฟอร์มที่ออกแบบมาเพื่อสาย IT โดยเฉพาะ
@@ -54,7 +76,7 @@ export default function Home() {
               ครบทุกฟังก์ชันตั้งแต่หา ถึงติดต่อ และปิดดีลงาน
             </p>
           </div>
-          <div className="flex justify-around w-full gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <Card className="container p-6">
               <CardHeader>
                 <CardTitle className="font-bold">Smart Profile</CardTitle>
@@ -85,8 +107,8 @@ export default function Home() {
       </section>
 
       {/* section บริษัททำอะไรได้บ้าง */}
-      <section className="flex flex-col items-center justify-center p-20 bg-sky-50 space-y-7">
-        <div className="container space-y-7 px-20">
+      <section className="flex items-center justify-center p-20 bg-sky-50 space-y-7">
+        <div className="container space-y-7">
           <div className="container leading-relaxed text-center">
             <h1 className="text-2xl font-medium">
               สำหรับบริษัท: กรองผู้สมัครได้เร็วขึ้น
@@ -95,7 +117,7 @@ export default function Home() {
               โพสต์งาน ค้นหาผู้สมัคร และติดตามการรับสมัครในที่เดียว
             </p>
           </div>
-          <div className="flex justify-around w-full gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <Card className="container p-6">
               <CardHeader>
                 <CardTitle className="font-bold">Job Posting</CardTitle>
@@ -125,15 +147,15 @@ export default function Home() {
       </section>
 
       {/* section แพ็กเกจ */}
-      <section className="flex flex-col items-center justify-center p-20 bg-neutral-50">
-        <div className="container space-y-7 px-30">
+      <section className="flex items-center justify-center p-20 bg-neutral-50">
+        <div className="container space-y-7">
           <div className="leading-relaxed text-center">
             <h1 className="text-2xl font-medium">แพ็กเกจที่ใช่</h1>
             <p className="text-muted-foreground">
               เริ่มต้นใช้งานฟรี อัปเกรดเมื่อพร้อม
             </p>
           </div>
-          <div className="flex container gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             <Card className="container p-6">
               <CardHeader>
                 <CardTitle className="text-2xl font-sans">
