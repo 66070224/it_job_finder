@@ -10,6 +10,7 @@ import {
   UseGuards,
   Req,
   Request,
+  Res,
 } from '@nestjs/common';
 import { AuthsService } from './auths.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
@@ -17,6 +18,7 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { ProviderTypes } from './entities/auth.entity';
 import { AuthGuard } from '@nestjs/passport';
+import type { Response } from 'express';
 @Controller('auths')
 export class AuthsController {
   constructor(
@@ -63,8 +65,16 @@ export class AuthsController {
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleCallback(@Req() req) {
-    return this.authsService.signin(req.user.email, req.user.sub);
+  async googleCallback(@Req() req, @Res() res: Response) {
+    const token = await this.authsService.signin(req.user.email, req.user.sub);
+    res.cookie('auth_token', token.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
+
+    return res.redirect('http://localhost:3000');
   }
 
   @Get('github')
