@@ -42,6 +42,9 @@ export class User {
   @Column({ type: 'enum', enum: UserRole, nullable: true })
   role!: UserRole | null;
 
+  @Column({ type: 'boolean', default: false })
+  is_profile!: boolean;
+
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;
 
