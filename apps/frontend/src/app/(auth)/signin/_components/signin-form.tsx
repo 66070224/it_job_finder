@@ -72,15 +72,7 @@ export default function SignInForm() {
         <Button className="py-5 cursor-pointer" type="submit">
           เข้าสู่ระบบ
         </Button>
-        <div className="flex items-center gap-4 mx-2">
-          <div className="h-px flex-1 bg-border" />
-          <span className="text-sm text-muted-foreground">หรือ</span>
-          <div className="h-px flex-1 bg-border" />
-        </div>
-        <Button className="py-5 cursor-pointer border-border" variant="secondary">
-          <FcGoogle className="mr-2 h-5 w-5"/>
-          เข้าสู่ระบบด้วย Google
-        </Button>
+
       </FieldGroup>
     </form>
   );
