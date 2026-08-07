@@ -14,12 +14,14 @@ export class UsersService {
     email: string,
     first_name: string,
     last_name: string,
+    email_verified: boolean,
     avatar_url?: string,
   ) {
     const user = this.userRepository.create({
       email,
       first_name,
       last_name,
+      email_verified,
       avatar_url,
     });
     return this.userRepository.save(user);

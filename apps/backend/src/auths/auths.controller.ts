@@ -35,6 +35,7 @@ export class AuthsController {
       createAuthDto.email,
       createAuthDto.first_name,
       createAuthDto.last_name,
+      false,
     );
 
     const hashed_password = await this.authsService.hashPassword(
@@ -58,11 +59,21 @@ export class AuthsController {
 
   @Get('google')
   @UseGuards(AuthGuard('google'))
-  async oauthLogin(@Req() req) {}
+  async googleLogin(@Req() req) {}
 
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async oauthCallback(@Req() req) {
+  async googleCallback(@Req() req) {
+    return this.authsService.signin(req.user.email, req.user.sub);
+  }
+
+  @Get('github')
+  @UseGuards(AuthGuard('github'))
+  async githubLogin(@Req() req) {}
+
+  @Get('github/callback')
+  @UseGuards(AuthGuard('github'))
+  async githubCallback(@Req() req) {
     return this.authsService.signin(req.user.email, req.user.sub);
   }
 
