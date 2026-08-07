@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { Repository } from 'typeorm';
 import { Auth, ProviderTypes } from './entities/auth.entity';
-import { User, UserRole } from 'src/users/entities/user.entity';
+import { User } from 'src/users/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as b from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -92,6 +92,7 @@ export class AuthsService {
       email,
       first_name,
       last_name,
+      true,
       picture,
     );
     const newAuth = await this.createAuth(
