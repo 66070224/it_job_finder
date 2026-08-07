@@ -7,7 +7,6 @@ import {
   MinLength,
   ValidateIf,
 } from 'class-validator';
-import { type PublicUserRole, UserRole } from 'src/users/entities/user.entity';
 
 export class CreateAuthDto {
   @IsEmail()
