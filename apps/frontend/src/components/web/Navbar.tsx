@@ -4,7 +4,8 @@ import { Logo } from "../ui/logo";
 
 export default function Navbar() {
   return (
-    <nav className="flex w-full items-center justify-between gap-5 py-5 border-1 px-4 md:px-6 lg:px-8">
+    <nav className="flex justify-center gap-5 py-5 border-b-2 px-4 md:px-6 lg:px-8">
+      <div className="flex items-center justify-between w-full max-w-screen-2xl">
       <Logo />
       <div className="flex gap-10 items-center">
         <Link href="/jobs">
@@ -29,7 +30,9 @@ export default function Navbar() {
           </Button>
         </Link>
         {/*<ThemeToggle />*/}
+        </div>
       </div>
-    </nav>
+  </nav>
+    
   );
 }
