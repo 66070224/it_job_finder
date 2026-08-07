@@ -77,16 +77,6 @@ export class AuthsController {
     return res.redirect('http://localhost:3000');
   }
 
-  @Get('github')
-  @UseGuards(AuthGuard('github'))
-  async githubLogin(@Req() req) {}
-
-  @Get('github/callback')
-  @UseGuards(AuthGuard('github'))
-  async githubCallback(@Req() req) {
-    return this.authsService.signin(req.user.email, req.user.sub);
-  }
-
   @Get()
   findAll() {
     return this.authsService.findAll();

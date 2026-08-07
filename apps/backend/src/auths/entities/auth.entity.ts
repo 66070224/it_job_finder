@@ -10,7 +10,6 @@ import {
 export enum ProviderTypes {
   PASSWORD = 'PASSWORD',
   GOOGLE = 'GOOGLE',
-  GITHUB = 'GITHUB',
 }
 
 @Entity('auths')
