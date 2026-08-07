@@ -15,6 +15,7 @@ export enum ProviderTypes {
 
 @Entity('auths')
 @Unique(['user', 'provider_type'])
+@Unique(['provider_type', 'provider_user_id'])
 export class Auth {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
