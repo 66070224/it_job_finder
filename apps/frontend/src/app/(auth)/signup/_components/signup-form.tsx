@@ -9,10 +9,15 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import z from "zod";
+
+type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export default function SignUpForm() {
-  const form = useForm({
+  const { handleSubmit, control } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",
@@ -21,14 +26,34 @@ export default function SignUpForm() {
       password: "",
     },
   });
-  function onSubmit() {}
+
+  const onSubmit = async (data: SignUpFormData) => {
+    const response = await fetch("http://localhost:4000/auths/password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+        first_name: data.first_name,
+        last_name: data.last_name,
+      }),
+    });
+    if (!response.ok) {
+      setState("sdadadadssad");
+      return;
+    }
+    return router.push("/signin");
+  };
+  const [state, setState] = useState("");
+  const router = useRouter();
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {state && <>eiie{state}</>}
       <FieldGroup className="gap-6">
         <div className="grid grid-cols-2 gap-4">
           <Controller
             name="first_name"
-            control={form.control}
+            control={control}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel>ชื่อ</FieldLabel>
@@ -48,7 +73,7 @@ export default function SignUpForm() {
 
           <Controller
             name="last_name"
-            control={form.control}
+            control={control}
             render={({ field, fieldState }) => (
               <Field>
                 <FieldLabel>นามสกุล</FieldLabel>
@@ -69,7 +94,7 @@ export default function SignUpForm() {
 
         <Controller
           name="email"
-          control={form.control}
+          control={control}
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel>อีเมล</FieldLabel>
@@ -77,7 +102,7 @@ export default function SignUpForm() {
                 className="py-5"
                 aria-invalid={fieldState.invalid}
                 placeholder="jobit@example.com"
-                type="email"
+                type="text"
                 {...field}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -87,7 +112,7 @@ export default function SignUpForm() {
 
         <Controller
           name="password"
-          control={form.control}
+          control={control}
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel>รหัสผ่าน</FieldLabel>
@@ -102,7 +127,9 @@ export default function SignUpForm() {
             </Field>
           )}
         />
-        <Button className="py-5" >สร้างบัญชี</Button>
+        <Button type="submit" className="py-5">
+          สร้างบัญชี
+        </Button>
       </FieldGroup>
     </form>
   );
