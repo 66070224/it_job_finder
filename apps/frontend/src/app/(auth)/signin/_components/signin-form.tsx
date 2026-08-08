@@ -11,10 +11,12 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Controller, useForm } from "react-hook-form";
-import { FcGoogle } from "react-icons/fc";
+import { z } from "zod";
+
+type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function SignInForm() {
-  const form = useForm({
+  const { handleSubmit, control } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
@@ -22,13 +24,16 @@ export default function SignInForm() {
     },
   });
 
-  function onSubmit() {}
+  const onSubmit = async (data: SignInFormData) => {
+    console.log(data);
+  };
+  
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup className="gap-6">
         <Controller
           name="email"
-          control={form.control}
+          control={control}
           render={({ field, fieldState }) => (
             <Field>
               <FieldLabel>อีเมล</FieldLabel>
@@ -36,7 +41,7 @@ export default function SignInForm() {
                 className="py-5"
                 aria-invalid={fieldState.invalid}
                 placeholder="jobit@example.com"
-                type="email"
+                type="text"
                 {...field}
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -46,7 +51,7 @@ export default function SignInForm() {
 
         <Controller
           name="password"
-          control={form.control}
+          control={control}
           render={({ field, fieldState }) => (
             <Field>
               <div className="flex justify-between">
@@ -72,7 +77,6 @@ export default function SignInForm() {
         <Button className="py-5 cursor-pointer" type="submit">
           เข้าสู่ระบบ
         </Button>
-
       </FieldGroup>
     </form>
   );
