@@ -4,11 +4,13 @@ import { isEmail, isUUID } from 'class-validator';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PublicUserRole, User, UserRole } from './entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
   create(
     email: string,
@@ -27,8 +29,16 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async getUserByAccessToken(
+    token: string,
+    profile = false,
+  ): Promise<User | null> {
+    const decoded: { email: string; sub: string } =
+      this.jwtService.decode(token);
+
+    return this.userRepository.findOne({
+      where: { email: decoded.email, id: decoded.sub },
+    });
   }
 
   findOneById(id: string): Promise<User | null> {
