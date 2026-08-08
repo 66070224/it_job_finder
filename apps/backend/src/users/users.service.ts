@@ -4,11 +4,13 @@ import { isEmail, isUUID } from 'class-validator';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PublicUserRole, User, UserRole } from './entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
   create(
     email: string,
@@ -27,10 +29,6 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  findAll() {
-    return `This action returns all users`;
-  }
-
   findOneById(id: string): Promise<User | null> {
     if (!isUUID(id)) throw new BadRequestException('id is not uuid');
     return this.userRepository.findOneBy({ id: id });
@@ -40,15 +38,13 @@ export class UsersService {
     return this.userRepository.findOneBy({ email: email });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  findOneByToken(token: string, profile = false): Promise<User | null> {
+    const { email, sub }: { email: string; sub: string } =
+      this.jwtService.decode(token);
+    return this.userRepository.findOne({ where: { email, id: sub } });
   }
 
   updateEmailVerified(id: string, email_verified: boolean) {
     return this.userRepository.update(id, { email_verified: email_verified });
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }
