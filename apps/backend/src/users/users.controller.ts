@@ -1,28 +1,34 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Req,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('me')
-  getMe(@Req() req: Request, @Param('profile') profile: boolean) {
-    const access_token = req.headers.get('access_token');
-    if (!access_token) throw new UnauthorizedException();
-    return this.usersService.getUserByAccessToken(access_token, profile);
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    //return this.usersService.create(createUserDto);
   }
 
-  @Get(':email')
-  async findOneByEmail(@Param('email') email: string) {
-    const user = await this.usersService.findOneByEmail(email);
-    if (!user) return null;
-    const { id, auth, updated_at, ...rest } = user;
-    return { rest };
+  @Get()
+  findAll() {
+    return this.usersService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    //return this.usersService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(+id, updateUserDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(+id);
   }
 }
