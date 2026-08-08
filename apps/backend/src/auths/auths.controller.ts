@@ -11,10 +11,10 @@ import {
   Req,
   Request,
   Res,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthsService } from './auths.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { ProviderTypes } from './entities/auth.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -50,13 +50,17 @@ export class AuthsController {
       hashed_password,
     );
 
-    return 'Done';
+    return { message: 'Done' };
   }
 
   @UseGuards(AuthGuard('password'))
   @Post('signin')
+  @HttpCode(200)
   async signIn(@Request() req: { user: { email: string; sub: string } }) {
-    return this.authsService.signin(req.user.email, req.user.sub);
+    return this.authsService.signin({
+      email: req.user.email,
+      sub: req.user.sub,
+    });
   }
 
   @Get('google')
@@ -66,7 +70,10 @@ export class AuthsController {
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleCallback(@Req() req, @Res() res: Response) {
-    const token = await this.authsService.signin(req.user.email, req.user.sub);
+    const token = await this.authsService.signin({
+      email: req.user.email,
+      sub: req.user.sub,
+    });
     res.cookie('auth_token', token.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
