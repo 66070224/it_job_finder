@@ -1,19 +1,24 @@
 import { ApiError } from "./error/api-error.js";
 
-export function createClient(backendUrl: string) {
+export function createClient(
+  backendUrl: string,
+  auth?: {
+    Authorization?: string;
+  },
+) {
   const request = async (path: string, options?: RequestInit) => {
     const response = await fetch(`${backendUrl}${path}`, {
       ...options,
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...auth,
         ...options?.headers,
       },
     });
 
     if (!response.ok) {
       const body = await response.json().catch(() => null);
-
       throw new ApiError(response.status, body?.message, body?.error);
     }
 
