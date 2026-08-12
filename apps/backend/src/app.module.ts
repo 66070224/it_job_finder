@@ -8,6 +8,7 @@ import { User } from './users/entities/user.entity';
 import { AuthsModule } from './auths/auths.module';
 import { DataSource } from 'typeorm';
 import { Auth } from './auths/entities/auth.entity';
+import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { Auth } from './auths/entities/auth.entity';
     }),
     UsersModule,
     AuthsModule,
+    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
