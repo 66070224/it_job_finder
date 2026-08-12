@@ -31,17 +31,26 @@ export class UsersService {
 
   findOneById(id: string): Promise<User | null> {
     if (!isUUID(id)) throw new BadRequestException('id is not uuid');
-    return this.userRepository.findOneBy({ id: id });
+    return this.userRepository.findOne({
+      where: { id: id },
+      relations: { profile: true },
+    });
   }
   findOneByEmail(email: string): Promise<User | null> {
     if (!isEmail(email)) throw new BadRequestException('email is not valid');
-    return this.userRepository.findOneBy({ email: email });
+    return this.userRepository.findOne({
+      where: { email: email },
+      relations: { profile: true },
+    });
   }
 
-  findOneByToken(token: string, profile = false): Promise<User | null> {
+  findOneByToken(token: string): Promise<User | null> {
     const { email, sub }: { email: string; sub: string } =
       this.jwtService.decode(token);
-    return this.userRepository.findOne({ where: { email, id: sub } });
+    return this.userRepository.findOne({
+      where: { email, id: sub },
+      relations: { profile: true },
+    });
   }
 
   updateEmailVerified(id: string, email_verified: boolean) {
