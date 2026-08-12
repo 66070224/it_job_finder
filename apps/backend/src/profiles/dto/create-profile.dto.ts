@@ -11,10 +11,6 @@ import {
 import { User } from 'src/users/entities/user.entity';
 
 export class CreateProfileDto {
-  @ValidateNested()
-  @Type(() => User)
-  user!: User;
-
   @IsString()
   @Min(1)
   phone!: string;
