@@ -10,14 +10,14 @@ export class Profile {
   @JoinColumn({ name: 'uid' })
   user!: User;
 
-  @Column({ type: 'text', nullable: true })
-  phone!: string | null;
+  @Column({ type: 'text' })
+  phone!: string;
 
-  @Column({ type: 'date', nullable: true })
-  birth_date!: Date | null;
+  @Column({ type: 'date' })
+  birth_date!: Date;
 
-  @Column({ type: 'text', nullable: true })
-  address!: string | null;
+  @Column({ type: 'text' })
+  address!: string;
 
   @Column({ type: 'text', nullable: true })
   github_url!: string | null;
