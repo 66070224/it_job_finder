@@ -10,6 +10,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -25,11 +27,26 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (data: SignInFormData) => {
-    console.log(data);
+    const response = await fetch("http://localhost:4000/auths/signin", {
+      method: "POST",
+      headers: { "Content_Type" : "application/json" },
+      body: JSON.stringify({
+        email: data.email,
+        password: data.password,
+      }),
+    });
+    if (!response.ok) {
+      setState("sdadadadssad");
+      return;
+    }
+    return router.push("/");
   };
-  
+  const router = useRouter();
+  const [state, setState] = useState("");
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {state && <>state: {state}</>}
       <FieldGroup className="gap-6">
         <Controller
           name="email"
@@ -74,7 +91,7 @@ export default function SignInForm() {
             </Field>
           )}
         />
-        <Button className="py-5 cursor-pointer" type="submit">
+        <Button type="submit" className="py-5 cursor-pointer" >
           เข้าสู่ระบบ
         </Button>
       </FieldGroup>
