@@ -1,4 +1,5 @@
 import { ApiError } from "./error/api-error.js";
+import { redirect } from "next/navigation.js";
 
 export function createClient(
   backendUrl: string,
@@ -25,8 +26,7 @@ export function createClient(
     return response.json();
   };
 
-  const redirectTo = (path: string) =>
-    (window.location.href = `${backendUrl}${path}`);
+  const redirectTo = (path: string) => redirect(`${backendUrl}${path}`);
 
   return {
     get: (path: string) => request(path),
