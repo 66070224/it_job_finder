@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 
-export default function JobDetail() {
+export default function JobDetailPage() {
   return (
     <div className="p-20 min-h-screen">
       <div className="mb-10">

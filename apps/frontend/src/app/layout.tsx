@@ -32,7 +32,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("h-full", "antialiased", mitr.variable, sora.variable, "font-sans", geist.variable)}
     >
-      <body>{children}</body>
+      <body className="bg-gray-100">{children}</body>
     </html>
   );
 }

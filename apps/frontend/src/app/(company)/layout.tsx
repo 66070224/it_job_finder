@@ -11,8 +11,9 @@ export default function MainLayout({
       <SidebarProvider>
         <CompanySidebar />
         <SidebarInset>
-          <div className="flex-1 p-2"></div>
+          <div className="flex-1 p-2 bg-gray-50">
           {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </div>
