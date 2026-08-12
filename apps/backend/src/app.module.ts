@@ -9,6 +9,7 @@ import { AuthsModule } from './auths/auths.module';
 import { DataSource } from 'typeorm';
 import { Auth } from './auths/entities/auth.entity';
 import { ProfilesModule } from './profiles/profiles.module';
+import { Profile } from './profiles/entities/profile.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { ProfilesModule } from './profiles/profiles.module';
         username: configService.getOrThrow<string>('DB_USERNAME'),
         password: configService.getOrThrow<string>('DB_PASSWORD'),
         database: configService.getOrThrow<string>('DB_NAME'),
-        entities: [User, Auth],
+        entities: [User, Auth, Profile],
         synchronize: true,
       }),
       inject: [ConfigService],

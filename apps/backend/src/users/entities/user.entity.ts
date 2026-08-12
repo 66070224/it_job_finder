@@ -1,9 +1,12 @@
 import { Auth } from 'src/auths/entities/auth.entity';
+import { Profile } from 'src/profiles/entities/profile.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -44,6 +47,10 @@ export class User {
 
   @Column({ type: 'boolean', default: false })
   is_profile!: boolean;
+
+  @OneToOne(() => Profile, { nullable: true })
+  @JoinColumn()
+  profile!: Profile | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;
