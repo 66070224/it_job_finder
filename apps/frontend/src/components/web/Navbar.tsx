@@ -14,11 +14,11 @@ export default async function Navbar() {
           <Link href="/jobs">
             <button className="cursor-pointer">หางาน</button>
           </Link>
-          <Link href="/aiassist">
-            <button className="cursor-pointer">AI ผู้ช่วย</button>
+          <Link href="/about-us">
+            <button className="cursor-pointer">เกี่ยวกับเรา</button>
           </Link>
-          <Link href="/packages">
-            <button className="cursor-pointer">แพ็กเกจ</button>
+          <Link href="/company-dashboard">
+            <button className="cursor-pointer">บริษัท</button>
           </Link>
         </div>
         <div className="flex gap-5 items-center">
