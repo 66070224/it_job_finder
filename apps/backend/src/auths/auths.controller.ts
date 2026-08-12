@@ -19,6 +19,7 @@ import { UsersService } from 'src/users/users.service';
 import { ProviderTypes } from './entities/auth.entity';
 import { AuthGuard } from '@nestjs/passport';
 import type { Response } from 'express';
+import { JwtAuthGuard } from './jwt-auth.guard';
 @Controller('auths')
 export class AuthsController {
   constructor(
@@ -74,7 +75,7 @@ export class AuthsController {
       email: req.user.email,
       sub: req.user.sub,
     });
-    res.cookie('auth_token', token.access_token, {
+    res.cookie('access_token', token.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -82,5 +83,12 @@ export class AuthsController {
     });
 
     return res.redirect('http://localhost:3000');
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('session')
+  getMe(@Req() req) {
+    console.log(req.user);
+    return this.usersService.findOneById(req.user.id);
   }
 }
