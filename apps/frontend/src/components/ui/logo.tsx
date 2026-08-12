@@ -1,11 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-interface LogoProps {
-  className?: string;
-}
-
-export function Logo({ className }: LogoProps) {
+export function Logo({ className } : React.ComponentProps<"div">) {
   return (
     <Link className="flex items-center gap-2" href="/">
       <div className="rounded-xl bg-linear-to-br from-blue-500 via-blue-700 to-slate-900 px-3.5 py-2 ring ring-white/10">
