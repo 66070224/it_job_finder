@@ -2,14 +2,15 @@ import { Button } from "@/components/ui/button";
 import Cadidate from "./_components/cadidate";
 import { ComDashCard } from "./_components/company-dashboard-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
-export default function CompanyDashboard() {
+export default function CompanyDashboardPage() {
   return (
     <>
       <div className="min-h-screen p-20 space-y-10">
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold">Dashboard - Nexora Tech</h1>
-          <Button className="p-5">+ ประกาศงานใหม่</Button>
+          <Button className="p-5"><Link href="/create-job">+ ประกาศงานใหม่</Link></Button>
         </div>
 
         <div className="flex justify-around w-full gap-4">
