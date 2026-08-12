@@ -3,6 +3,7 @@ import {
   IsDate,
   IsObject,
   IsString,
+  IsUrl,
   Min,
   ValidateIf,
   ValidateNested,
@@ -25,6 +26,6 @@ export class CreateProfileDto {
   address!: string;
 
   @ValidateIf((object, value) => value !== null)
-  @IsString()
+  @IsUrl()
   github_url!: string | null;
 }
