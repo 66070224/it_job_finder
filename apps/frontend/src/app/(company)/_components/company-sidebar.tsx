@@ -14,16 +14,14 @@ import Link from "next/link";
 
 export function CompanySidebar() { 
   return (<Sidebar className="max-h-screen" >
-    <SidebarHeader className="p-4 border-b border-sidebar-border">
-      <Logo />
-    </SidebarHeader>
   
-    <SidebarContent className="px-3 py-4">
+    <SidebarContent className="px-3 py-4 bg-secondary-foreground space-y-4">
+      <Logo className="text-white"/>
       <SidebarGroup>
-        <SidebarMenu className="space-y-3">
+        <SidebarMenu className="space-y-3 text-white">
   
           <SidebarMenuItem>
-            <SidebarMenuButton isActive>
+            <SidebarMenuButton>
               <LayoutDashboard />
               <Link href="/company-dashboard"><span>แดชบอร์ด</span></Link>
             </SidebarMenuButton>
@@ -53,7 +51,7 @@ export function CompanySidebar() {
       </SidebarGroup>
     </SidebarContent>
   
-    <SidebarFooter className="p-3">
+    <SidebarFooter className="p-3 bg-secondary-foreground text-white">
       <SidebarMenuButton>
         <LogOut />
         <span>ออกจากระบบ</span>
