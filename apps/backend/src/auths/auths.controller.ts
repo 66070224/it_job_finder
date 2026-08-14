@@ -12,6 +12,9 @@ import {
   Request,
   Res,
   HttpCode,
+  Query,
+  DefaultValuePipe,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { AuthsService } from './auths.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
@@ -87,8 +90,11 @@ export class AuthsController {
 
   @UseGuards(JwtAuthGuard)
   @Get('session')
-  getMe(@Req() req) {
-    console.log(req.user);
-    return this.usersService.findOneById(req.user.id);
+  getMe(
+    @Req() req,
+    @Query('profile', new DefaultValuePipe(false), ParseBoolPipe)
+    profile: boolean,
+  ) {
+    return this.usersService.findOneById(req.user.id, profile);
   }
 }
