@@ -57,7 +57,10 @@ export class UsersService {
     return this.userRepository.update(id, { email_verified: email_verified });
   }
 
-  updateIsProfile(id: string, is_profile: boolean) {
-    return this.userRepository.update(id, { is_profile });
+  insertProfile(id: string) {
+    return this.userRepository.update(id, {
+      is_profile: true,
+      role: UserRole.JOB_SEEKER,
+    });
   }
 }
