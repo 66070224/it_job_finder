@@ -11,14 +11,18 @@ import {
   Req,
   Request,
   Res,
+  HttpCode,
+  Query,
+  DefaultValuePipe,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { AuthsService } from './auths.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { ProviderTypes } from './entities/auth.entity';
 import { AuthGuard } from '@nestjs/passport';
 import type { Response } from 'express';
+import { JwtAuthGuard } from './jwt-auth.guard';
 @Controller('auths')
 export class AuthsController {
   constructor(
@@ -50,13 +54,17 @@ export class AuthsController {
       hashed_password,
     );
 
-    return 'Done';
+    return { message: 'Done' };
   }
 
   @UseGuards(AuthGuard('password'))
   @Post('signin')
+  @HttpCode(200)
   async signIn(@Request() req: { user: { email: string; sub: string } }) {
-    return this.authsService.signin(req.user.email, req.user.sub);
+    return this.authsService.signin({
+      email: req.user.email,
+      sub: req.user.sub,
+    });
   }
 
   @Get('google')
@@ -66,8 +74,11 @@ export class AuthsController {
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
   async googleCallback(@Req() req, @Res() res: Response) {
-    const token = await this.authsService.signin(req.user.email, req.user.sub);
-    res.cookie('auth_token', token.access_token, {
+    const token = await this.authsService.signin({
+      email: req.user.email,
+      sub: req.user.sub,
+    });
+    res.cookie('access_token', token.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -77,23 +88,13 @@ export class AuthsController {
     return res.redirect('http://localhost:3000');
   }
 
-  @Get()
-  findAll() {
-    return this.authsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authsService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authsService.remove(+id);
+  @UseGuards(JwtAuthGuard)
+  @Get('session')
+  getMe(
+    @Req() req,
+    @Query('profile', new DefaultValuePipe(false), ParseBoolPipe)
+    profile: boolean,
+  ) {
+    return this.usersService.findOneById(req.user.id, profile);
   }
 }
