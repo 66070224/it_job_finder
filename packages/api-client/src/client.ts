@@ -8,6 +8,7 @@ export function createClient(
   },
 ) {
   const request = async (path: string, options?: RequestInit) => {
+    console.log(`${backendUrl}${path}`);
     const response = await fetch(`${backendUrl}${path}`, {
       ...options,
       credentials: "include",
