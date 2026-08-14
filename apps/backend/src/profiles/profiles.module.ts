@@ -10,5 +10,6 @@ import { JwtStrategy } from 'src/auths/jwt.strategy';
   imports: [TypeOrmModule.forFeature([Profile]), UsersModule],
   controllers: [ProfilesController],
   providers: [ProfilesService, JwtStrategy],
+  exports: [ProfilesService],
 })
 export class ProfilesModule {}
