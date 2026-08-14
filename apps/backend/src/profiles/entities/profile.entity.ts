@@ -6,8 +6,13 @@ export class Profile {
   @PrimaryColumn()
   uid!: string;
 
-  @OneToOne(() => User, (user) => user.profile, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'uid' })
+  @OneToOne(() => User, (user) => user.profile, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'uid',
+    referencedColumnName: 'id',
+  })
   user!: User;
 
   @Column({ type: 'text' })
