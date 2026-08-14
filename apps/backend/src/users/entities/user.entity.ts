@@ -48,8 +48,7 @@ export class User {
   @Column({ type: 'boolean', default: false })
   is_profile!: boolean;
 
-  @OneToOne(() => Profile, { nullable: true })
-  @JoinColumn()
+  @OneToOne(() => Profile, (profile) => profile.user)
   profile!: Profile | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
