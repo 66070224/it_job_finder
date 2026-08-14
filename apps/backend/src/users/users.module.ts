@@ -18,7 +18,6 @@ import { ProfilesModule } from 'src/profiles/profiles.module';
         secret: configService.getOrThrow<string>('JWT_SECRET'),
       }),
     }),
-    ProfilesModule,
   ],
   controllers: [UsersController],
   providers: [UsersService, JwtStrategy],
