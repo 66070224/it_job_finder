@@ -29,31 +29,35 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  findOneById(id: string): Promise<User | null> {
+  findOneById(id: string, profile = false): Promise<User | null> {
     if (!isUUID(id)) throw new BadRequestException('id is not uuid');
     return this.userRepository.findOne({
       where: { id: id },
-      relations: { profile: true },
+      relations: { profile },
     });
   }
-  findOneByEmail(email: string): Promise<User | null> {
+  findOneByEmail(email: string, profile = false): Promise<User | null> {
     if (!isEmail(email)) throw new BadRequestException('email is not valid');
     return this.userRepository.findOne({
       where: { email: email },
-      relations: { profile: true },
+      relations: { profile },
     });
   }
 
-  findOneByToken(token: string): Promise<User | null> {
+  findOneByToken(token: string, profile = false): Promise<User | null> {
     const { email, sub }: { email: string; sub: string } =
       this.jwtService.decode(token);
     return this.userRepository.findOne({
       where: { email, id: sub },
-      relations: { profile: true },
+      relations: { profile },
     });
   }
 
   updateEmailVerified(id: string, email_verified: boolean) {
     return this.userRepository.update(id, { email_verified: email_verified });
+  }
+
+  updateIsProfile(id: string, is_profile: boolean) {
+    return this.userRepository.update(id, { is_profile });
   }
 }
