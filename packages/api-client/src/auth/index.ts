@@ -1,3 +1,4 @@
+import { cookies } from "next/headers.js";
 import { createClient } from "../client.js";
 import { ApiError } from "../error/api-error.js";
 import { User } from "../interfaces/user.js";
@@ -35,6 +36,11 @@ export function createAuthApi(client: ReturnType<typeof createClient>) {
           throw err;
         }
       }
+    },
+
+    signout: async () => {
+      const cookie = await cookies();
+      cookie.delete("access_token");
     },
   };
 }
