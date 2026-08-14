@@ -15,10 +15,11 @@ export function createAuthApi(client: ReturnType<typeof createClient>) {
       last_name: string;
     }) => client.post("/auths/password", data),
 
-    passwordSignin: (data: {
-      email: string;
-      password: string;
-    }): Promise<Token> => client.post("/auths/signin", data),
+    passwordSignin: async (data: { email: string; password: string }) => {
+      const response = await client.post("/auths/signin", data);
+      const cookie = await cookies();
+      cookie.set("access_token", response.access_token);
+    },
 
     googleSignin: () => client.redirect("/auths/google"),
 
