@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as b from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/users/users.service';
+import AccessTokenPayload from './interfaces/payload.interface';
 
 @Injectable()
 export class AuthsService {
@@ -37,7 +38,7 @@ export class AuthsService {
   async validatePasswordUser(
     email: string,
     password: string,
-  ): Promise<{ email: string; sub: string } | null> {
+  ): Promise<AccessTokenPayload | null> {
     const existAuth = await this.authRepository.findOne({
       where: { user: { email: email }, provider_type: ProviderTypes.PASSWORD },
       relations: { user: true },
@@ -47,9 +48,9 @@ export class AuthsService {
     return { email: existAuth.user.email, sub: existAuth.user.id };
   }
 
-  async signin(email: string, sub: string) {
+  async signin(accessTokenPayload: AccessTokenPayload) {
     return {
-      access_token: this.jwtService.sign({ email, sub }),
+      access_token: this.jwtService.sign(accessTokenPayload),
     };
   }
 
@@ -60,7 +61,7 @@ export class AuthsService {
     first_name: string,
     last_name: string,
     picture: string,
-  ) {
+  ): Promise<AccessTokenPayload> {
     const existAuth = await this.authRepository.findOne({
       where: {
         user: { email: email },
