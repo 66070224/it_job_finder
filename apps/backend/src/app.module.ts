@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entities/user.entity';
-import { AuthsModule } from './auths/auths.module';
 import { DataSource } from 'typeorm';
-import { Auth } from './auths/entities/auth.entity';
-import { ProfilesModule } from './profiles/profiles.module';
-import { Profile } from './profiles/entities/profile.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { ProfileModule } from './profile/profile.module';
+import { JwtModule } from '@nestjs/jwt';
+import { User } from './user/entities/user.entity';
+import { Auth } from './auth/entities/auth.entity';
+import { Profile } from './profile/entities/profile.entity';
 
 @Module({
   imports: [
@@ -28,9 +29,9 @@ import { Profile } from './profiles/entities/profile.entity';
       }),
       inject: [ConfigService],
     }),
-    UsersModule,
-    AuthsModule,
-    ProfilesModule,
+    AuthModule,
+    UserModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
