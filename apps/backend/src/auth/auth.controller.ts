@@ -4,6 +4,7 @@ import {
   DefaultValuePipe,
   Get,
   HttpCode,
+  Inject,
   ParseBoolPipe,
   Post,
   Query,
@@ -14,11 +15,15 @@ import {
 import { AuthService } from './auth.service';
 import CreatePasswordAccountDto from './dto/create-password-account.dto';
 import { AuthGuard } from '@nestjs/passport';
-import type { CookieOptions, Response as ExpressResponse } from 'express';
+import type { Response as ExpressResponse } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from 'src/user/user.service';
 import { RefreshTokenAuthGuard } from './refresh-token-auth.guard';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import type { Cache } from 'cache-manager';
+import { randomUUID } from 'crypto';
+import ExchangeCodeToToken from './dto/exchange-code-to-token.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -26,16 +31,8 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly configService: ConfigService,
     private readonly userService: UserService,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
-
-  private getCookieOptions(): CookieOptions {
-    return {
-      httpOnly: true,
-      secure: this.configService.get<string>('NODE_ENV') === 'production',
-      sameSite: 'lax',
-      path: '/',
-    };
-  }
 
   @Post('password')
   async create(@Body() dto: CreatePasswordAccountDto) {
@@ -59,11 +56,20 @@ export class AuthController {
   async googleCallback(@Request() req, @Response() res: ExpressResponse) {
     const token = await this.authService.getAuthToken(req.user);
 
-    res.cookie('access_token', token.access_token, this.getCookieOptions());
+    const code = randomUUID();
 
-    res.cookie('refresh_token', token.refresh_token, this.getCookieOptions());
+    await this.cacheManager.set(`token-code:${code}`, token);
 
-    return res.redirect(this.configService.getOrThrow<string>('FRONTEND_URL'));
+    return res.redirect(
+      `${this.configService.getOrThrow<string>('FRONTEND_URL')}/api/auth/google/callback?code=${code}`,
+    );
+  }
+
+  @Post('exchange')
+  @HttpCode(200)
+  async exchangeCodeToToken(@Body() dto: ExchangeCodeToToken) {
+    const token = await this.cacheManager.get(`token-code:${dto.code}`);
+    return token;
   }
 
   @UseGuards(JwtAuthGuard)

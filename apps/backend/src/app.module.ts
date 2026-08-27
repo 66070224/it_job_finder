@@ -7,7 +7,6 @@ import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
-import { JwtModule } from '@nestjs/jwt';
 import { User } from './user/entities/user.entity';
 import { Auth } from './auth/entities/auth.entity';
 import { Profile } from './profile/entities/profile.entity';

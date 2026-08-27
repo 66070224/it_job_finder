@@ -4,11 +4,12 @@ import { ProfileController } from './profile.controller';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Profile } from './entities/profile.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Profile])],
   controllers: [ProfileController],
-  providers: [ProfileService, JwtStrategy],
+  providers: [ProfileService],
   exports: [ProfileService],
 })
 export class ProfileModule {}
