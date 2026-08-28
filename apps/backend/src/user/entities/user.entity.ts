@@ -1,9 +1,12 @@
 import { Auth } from 'src/auth/entities/auth.entity';
 import { Profile } from 'src/profile/entities/profile.entity';
+import { Skill } from 'src/skill/entities/skill.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -49,6 +52,10 @@ export class User {
 
   @OneToOne(() => Profile, (profile) => profile.user)
   profile!: Profile | null;
+
+  @ManyToMany(() => Skill)
+  @JoinTable()
+  skills!: Skill[];
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;
