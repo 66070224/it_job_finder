@@ -69,33 +69,4 @@ export class UserService {
       email_verified: data.emailVerified,
     });
   }
-
-  async attachProfile(user: User, profile: Profile) {
-    if (user.is_profile) {
-      throw new ConflictException('User already has profile');
-    }
-
-    if (user.role === UserRole.COMPANY) {
-      throw new ConflictException('User role is company');
-    }
-
-    try {
-      await this.dataSource.transaction(async (manager) => {
-        await manager.save(profile);
-        await manager.update(User, user.id, {
-          is_profile: true,
-          profile: profile,
-        });
-      });
-    } catch (err) {
-      this.logger.error(
-        'Attach profile error: ',
-        err instanceof Error ? err.stack : String(err),
-      );
-
-      throw new InternalServerErrorException('Server error');
-    }
-
-    return;
-  }
 }

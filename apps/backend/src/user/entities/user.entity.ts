@@ -44,9 +44,6 @@ export class User {
   @Column({ type: 'enum', enum: UserRole, nullable: true })
   role!: UserRole | null;
 
-  @Column({ type: 'boolean', default: false })
-  is_profile!: boolean;
-
   @OneToOne(() => Profile, (profile) => profile.user)
   profile!: Profile | null;
 

@@ -16,6 +16,7 @@ export class ProfileService {
 
   create(user: User, data: CreateProfileDto) {
     return this.profileRepository.create({
+      uid: user.id,
       user: user,
       phone: data.phone,
       address: data.address || null,
@@ -26,8 +27,15 @@ export class ProfileService {
   }
 
   async insert(user: User, data: CreateProfileDto) {
+    if (user.role !== UserRole.JOB_SEEKER) {
+      throw new ConflictException('User is not job seeker');
+    }
+
+    if (user.profile) {
+      throw new ConflictException('This user already has profile');
+    }
     const newProfile = this.create(user, data);
 
-    return this.userService.attachProfile(user, newProfile);
+    return this.profileRepository.save(newProfile);
   }
 }
