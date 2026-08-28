@@ -10,6 +10,7 @@ import { ProfileModule } from './profile/profile.module';
 import { User } from './user/entities/user.entity';
 import { Auth } from './auth/entities/auth.entity';
 import { Profile } from './profile/entities/profile.entity';
+import { SkillModule } from './skill/skill.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { Profile } from './profile/entities/profile.entity';
     AuthModule,
     UserModule,
     ProfileModule,
+    SkillModule,
   ],
   controllers: [AppController],
   providers: [AppService],

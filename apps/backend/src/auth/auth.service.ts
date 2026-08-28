@@ -6,7 +6,7 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Auth, ProviderTypes } from './entities/auth.entity';
+import { Auth, ProviderType } from './entities/auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
@@ -19,7 +19,7 @@ import { ConfigService } from '@nestjs/config';
 
 interface CreateInput {
   user: User;
-  providerType: ProviderTypes;
+  providerType: ProviderType;
   hashedPassword?: string;
   providerUserId?: string;
 }
@@ -30,7 +30,7 @@ interface ValidatePasswordUserInput {
 }
 
 interface ValidateOauthUserInput {
-  providerType: ProviderTypes;
+  providerType: ProviderType;
   providerUserID: string;
   email: string;
   firstName: string;
@@ -86,7 +86,7 @@ export class AuthService {
 
     const newAuth = this.create({
       user: newUser,
-      providerType: ProviderTypes.PASSWORD,
+      providerType: ProviderType.PASSWORD,
       hashedPassword: hashedPassword,
     });
 
@@ -111,7 +111,7 @@ export class AuthService {
     const auth = await this.authRepository.findOne({
       where: {
         user: { email: data.email },
-        provider_type: ProviderTypes.PASSWORD,
+        provider_type: ProviderType.PASSWORD,
       },
       relations: { user: true },
     });

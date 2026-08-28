@@ -7,7 +7,7 @@ import {
   Unique,
 } from 'typeorm';
 
-export enum ProviderTypes {
+export enum ProviderType {
   PASSWORD = 'PASSWORD',
   GOOGLE = 'GOOGLE',
 }
@@ -22,8 +22,8 @@ export class Auth {
   @ManyToOne(() => User, (user) => user.auth)
   user!: User;
 
-  @Column({ type: 'enum', enum: ProviderTypes })
-  provider_type!: ProviderTypes;
+  @Column({ type: 'enum', enum: ProviderType })
+  provider_type!: ProviderType;
 
   @Column({ type: 'text', nullable: true })
   provider_user_id!: string | null;
