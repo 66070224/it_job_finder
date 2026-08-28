@@ -16,7 +16,7 @@ export class Experience {
   title!: string;
 
   @Column({ type: 'text' })
-  from!: string;
+  address!: string;
 
   @Column({ type: 'text', nullable: true })
   description!: string | null;

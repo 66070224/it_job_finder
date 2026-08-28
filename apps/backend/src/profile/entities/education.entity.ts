@@ -13,10 +13,10 @@ export class Education {
   id!: number;
 
   @Column({ type: 'text' })
-  from!: string;
+  institution!: string;
 
   @Column({ type: 'text', nullable: true })
-  info!: string | null;
+  description!: string | null;
 
   @Column({ type: 'smallint' })
   start_year!: number;
