@@ -2,18 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-enum Category {
-  PROGRAMMING_LANGUAGE = 'pl',
-  FRONTEND_DEVELOPMENT = 'fd',
-  BACKEND_DEVELOPMENT = 'bd',
-  MOBILE_DEVELOPMENT = 'md',
-  DATABaSE = 'db',
-  DEVOPS_CLOUD = 'dc',
-}
-
+import { Category } from './category.entity';
 @Entity()
 export class Skill {
   @PrimaryGeneratedColumn('increment')
@@ -22,7 +14,7 @@ export class Skill {
   @Column({ type: 'text', unique: true })
   name!: string;
 
-  @Column({ type: 'enum', enum: Category })
+  @ManyToOne(() => Category, (category) => category.skills)
   category!: Category;
 
   @CreateDateColumn({ type: 'timestamptz' })
