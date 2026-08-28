@@ -19,6 +19,7 @@ export class ProfileService {
       user: user,
       phone: data.phone,
       address: data.address || null,
+      about_me: data.aboutMe,
       birth_date: data.birthDate,
       github_url: data.githubUrl || null,
     });

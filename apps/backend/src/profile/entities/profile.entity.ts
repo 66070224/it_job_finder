@@ -21,6 +21,9 @@ export class Profile {
   @Column({ type: 'date' })
   birth_date!: Date;
 
+  @Column({ type: 'text' })
+  about_me!: string;
+
   @Column({ type: 'text', nullable: true })
   address!: string | null;
 

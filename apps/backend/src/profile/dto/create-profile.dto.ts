@@ -9,6 +9,9 @@ export class CreateProfileDto {
   birthDate!: Date;
 
   @IsString()
+  aboutMe!: string;
+
+  @IsString()
   @IsOptional()
   address?: string;
 
