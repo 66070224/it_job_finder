@@ -11,8 +11,6 @@ import { User } from './user/entities/user.entity';
 import { Auth } from './auth/entities/auth.entity';
 import { Profile } from './profile/entities/profile.entity';
 import { SkillModule } from './skill/skill.module';
-import { ExperienceModule } from './experience/experience.module';
-import { EducationModule } from './education/education.module';
 
 @Module({
   imports: [
@@ -35,8 +33,6 @@ import { EducationModule } from './education/education.module';
     UserModule,
     ProfileModule,
     SkillModule,
-    ExperienceModule,
-    EducationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
