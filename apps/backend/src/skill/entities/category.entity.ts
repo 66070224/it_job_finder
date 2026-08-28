@@ -1,4 +1,10 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Skill } from './skill.entity';
 
 @Entity()
@@ -11,4 +17,7 @@ export class Category {
 
   @OneToMany(() => Skill, (skill) => skill.category)
   skills!: Skill[];
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  created_at!: Date;
 }
