@@ -12,6 +12,7 @@ import { Auth } from './auth/entities/auth.entity';
 import { Profile } from './profile/entities/profile.entity';
 import { SkillModule } from './skill/skill.module';
 import { ExperienceModule } from './experience/experience.module';
+import { EducationModule } from './education/education.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ExperienceModule } from './experience/experience.module';
     ProfileModule,
     SkillModule,
     ExperienceModule,
+    EducationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
