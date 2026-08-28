@@ -7,8 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User, UserRole } from './entities/user.entity';
 import { DataSource, Repository } from 'typeorm';
-import { ProfileService } from 'src/profile/profile.service';
-import { CreateProfileDto } from 'src/profile/dto/create-profile.dto';
+import { Profile } from 'src/profile/entities/profile.entity';
 
 interface CreateInput {
   email: string;
@@ -37,7 +36,6 @@ interface UpdateEmailVerifiedInput {
 export class UserService {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
-    private readonly profileService: ProfileService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -72,7 +70,7 @@ export class UserService {
     });
   }
 
-  async attachProfile(user: User, data: CreateProfileDto) {
+  async attachProfile(user: User, profile: Profile) {
     if (user.is_profile) {
       throw new ConflictException('User already has profile');
     }
@@ -81,14 +79,12 @@ export class UserService {
       throw new ConflictException('User role is company');
     }
 
-    const newProfile = this.profileService.create(user, data);
-
     try {
       await this.dataSource.transaction(async (manager) => {
-        await manager.save(newProfile);
+        await manager.save(profile);
         await manager.update(User, user.id, {
           is_profile: true,
-          profile: newProfile,
+          profile: profile,
         });
       });
     } catch (err) {
