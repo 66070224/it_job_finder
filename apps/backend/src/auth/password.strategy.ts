@@ -9,11 +9,10 @@ export class PasswordStrategy extends PassportStrategy(Strategy, 'password') {
     super();
   }
 
-  async validate(email: string, password: string) {
-    const user = await this.authsService.validatePasswordUser({
+  validate(email: string, password: string) {
+    return this.authsService.validatePasswordUser({
       email: email,
       password: password,
     });
-    return user;
   }
 }
