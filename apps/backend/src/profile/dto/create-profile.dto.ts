@@ -1,10 +1,18 @@
-import { IsDate, IsOptional, IsString, IsUrl, Min } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsDate,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MinLength,
+} from 'class-validator';
 
 export class CreateProfileDto {
   @IsString()
-  @Min(1)
+  @MinLength(1)
   phone!: string;
 
+  @Type(() => Date)
   @IsDate()
   birthDate!: Date;
 

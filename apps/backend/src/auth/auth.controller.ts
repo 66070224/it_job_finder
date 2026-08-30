@@ -85,12 +85,13 @@ export class AuthController {
     });
   }
 
-  @Post('refresh')
+  @Get('refresh')
   @UseGuards(RefreshTokenAuthGuard)
-  refresh(@Request() req) {
-    return this.authService.createAccessToken({
+  async refresh(@Request() req) {
+    const access_token = await this.authService.createAccessToken({
       sub: req.user.id,
       email: req.user.email,
     });
+    return { access_token };
   }
 }

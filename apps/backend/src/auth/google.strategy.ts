@@ -1,8 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy } from 'passport-google-oauth20';
 import { AuthService } from './auth.service';
-import { ProviderTypes } from './entities/auth.entity';
+import { ProviderType } from './entities/auth.entity';
 import { TokenPayload } from './auth.interface';
 import { ConfigService } from '@nestjs/config';
 
@@ -20,20 +20,31 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
   }
 
-  async validate(profile: Profile): Promise<TokenPayload> {
-    const email = profile._json.email;
+  private readonly logger = new Logger(AuthService.name);
 
-    if (!email) {
-      throw new UnauthorizedException('Google account has no email');
+  async validate(
+    accessToken: string,
+    refreshToken: string,
+    profile: Profile,
+  ): Promise<TokenPayload> {
+    const email = profile.emails?.[0].value;
+    const firstName = profile.name?.givenName;
+    const lastName = profile.name?.familyName;
+
+    if (!email || !firstName || !lastName) {
+      this.logger.log(email);
+      this.logger.log(firstName);
+      this.logger.log(lastName);
+      throw new UnauthorizedException('Google account missing important data');
     }
 
     return this.authService.validateOAuthUser({
-      providerType: ProviderTypes.GOOGLE,
+      providerType: ProviderType.GOOGLE,
       providerUserID: profile.id,
-      email: email,
-      firstName: profile._json.given_name || '',
-      lastName: profile._json.family_name || '',
-      avatarUrl: profile._json.picture,
+      email,
+      firstName: firstName,
+      lastName: lastName,
+      avatarUrl: profile.photos?.[0]?.value,
     });
   }
 }

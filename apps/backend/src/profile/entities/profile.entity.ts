@@ -17,7 +17,7 @@ import { Skill } from 'src/skill/entities/skill.entity';
 
 @Entity()
 export class Profile {
-  @PrimaryColumn()
+  @PrimaryColumn({ type: 'uuid' })
   uid!: string;
 
   @OneToOne(() => User, (user) => user.profile, {

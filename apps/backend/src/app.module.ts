@@ -7,9 +7,6 @@ import { DataSource } from 'typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
-import { User } from './user/entities/user.entity';
-import { Auth } from './auth/entities/auth.entity';
-import { Profile } from './profile/entities/profile.entity';
 import { SkillModule } from './skill/skill.module';
 import { CompanyModule } from './company/company.module';
 
@@ -25,7 +22,7 @@ import { CompanyModule } from './company/company.module';
         username: configService.getOrThrow<string>('DB_USERNAME'),
         password: configService.getOrThrow<string>('DB_PASSWORD'),
         database: configService.getOrThrow<string>('DB_NAME'),
-        entities: [User, Auth, Profile],
+        autoLoadEntities: true,
         synchronize: true,
       }),
       inject: [ConfigService],

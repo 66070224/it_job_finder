@@ -9,6 +9,7 @@ import { PasswordStrategy } from './password.strategy';
 import { GoogleStrategy } from './google.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { CacheModule } from '@nestjs/cache-manager';
+import { RefreshTokenStrategy } from './refresh-token.strategy';
 
 @Module({
   imports: [
@@ -18,6 +19,12 @@ import { CacheModule } from '@nestjs/cache-manager';
     CacheModule.register(),
   ],
   controllers: [AuthController],
-  providers: [AuthService, PasswordStrategy, GoogleStrategy, JwtStrategy],
+  providers: [
+    AuthService,
+    PasswordStrategy,
+    GoogleStrategy,
+    JwtStrategy,
+    RefreshTokenStrategy,
+  ],
 })
 export class AuthModule {}

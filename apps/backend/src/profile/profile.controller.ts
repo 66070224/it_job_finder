@@ -4,6 +4,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { CreateEducationDto } from './dto/create-education.dto';
 import { CreateExperienceDto } from './dto/create-experience.dto';
+import { AddSkillDto } from './dto/add-skill.dto';
 
 @Controller('profile')
 export class ProfileController {
@@ -25,5 +26,11 @@ export class ProfileController {
   @Post('experience')
   createExperience(@Request() req, @Body() dto: CreateExperienceDto) {
     return this.profileService.insertExperience(req.user, dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('skill')
+  insertSkill(@Request() req, @Body() dto: AddSkillDto) {
+    return this.profileService.insertSkill(req.user, dto);
   }
 }

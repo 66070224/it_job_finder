@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Auth, ProviderType } from './entities/auth.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { DataSource, Repository } from 'typeorm';
 import { User } from 'src/user/entities/user.entity';
 import * as b from 'bcrypt';
@@ -42,6 +42,7 @@ interface ValidateOauthUserInput {
 export class AuthService {
   constructor(
     @InjectRepository(Auth) private readonly authRepository: Repository<Auth>,
+    @InjectDataSource()
     private readonly dataSource: DataSource,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,

@@ -32,6 +32,11 @@ interface UpdateEmailVerifiedInput {
   emailVerified: boolean;
 }
 
+interface UpdateUserRoleInput {
+  id: string;
+  role: UserRole;
+}
+
 @Injectable()
 export class UserService {
   constructor(

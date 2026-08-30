@@ -1,11 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
-import { redirect } from "next/navigation";
+import { signinWithGoogle } from "../actions";
 
 export default function GoogleSignIn() {
-  const googleSignin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL!}/auths/google`;
+  const googleSignin = async () => {
+    await signinWithGoogle();
   };
   return (
     <Button
