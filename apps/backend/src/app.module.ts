@@ -9,6 +9,7 @@ import { UserModule } from './user/user.module';
 import { ProfileModule } from './profile/profile.module';
 import { SkillModule } from './skill/skill.module';
 import { CompanyModule } from './company/company.module';
+import { JobModule } from './job/job.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CompanyModule } from './company/company.module';
     ProfileModule,
     SkillModule,
     CompanyModule,
+    JobModule,
   ],
   controllers: [AppController],
   providers: [AppService],
