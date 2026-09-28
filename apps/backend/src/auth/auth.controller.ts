@@ -10,6 +10,7 @@ import {
   Query,
   Request,
   Response,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -24,6 +25,7 @@ import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import type { Cache } from 'cache-manager';
 import { randomUUID } from 'crypto';
 import ExchangeCodeToToken from './dto/exchange-code-to-token.dto';
+import { TokenPayload } from './auth.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -68,7 +70,11 @@ export class AuthController {
   @Post('exchange')
   @HttpCode(200)
   async exchangeCodeToToken(@Body() dto: ExchangeCodeToToken) {
-    const token = await this.cacheManager.get(`token-code:${dto.code}`);
+    const token = await this.cacheManager.get<{
+      access_token: string;
+      refresh_token: string;
+    }>(`token-code:${dto.code}`);
+    if (!token) throw new UnauthorizedException();
     return token;
   }
 
