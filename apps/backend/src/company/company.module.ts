@@ -6,6 +6,7 @@ import { Company } from './entities/company.entity';
 import { CompanyInfo } from './entities/company-info.entity';
 import { CompanyMember } from './entities/company-member.entity';
 import { CompanyFollow } from './entities/company-follow.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { CompanyFollow } from './entities/company-follow.entity';
       CompanyMember,
       CompanyFollow,
     ]),
+    AuthModule,
   ],
   controllers: [CompanyController],
   providers: [CompanyService],
