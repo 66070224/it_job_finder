@@ -1,0 +1,30 @@
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { UserModule } from 'src/user/user.module';
+import { Auth } from './entities/auth.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { PasswordStrategy } from './password.strategy';
+import { GoogleStrategy } from './google.strategy';
+import { JwtStrategy } from './jwt.strategy';
+import { CacheModule } from '@nestjs/cache-manager';
+import { RefreshTokenStrategy } from './refresh-token.strategy';
+
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([Auth]),
+    JwtModule.register({}),
+    UserModule,
+    CacheModule.register(),
+  ],
+  controllers: [AuthController],
+  providers: [
+    AuthService,
+    PasswordStrategy,
+    GoogleStrategy,
+    JwtStrategy,
+    RefreshTokenStrategy,
+  ],
+})
+export class AuthModule {}

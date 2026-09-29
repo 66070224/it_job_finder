@@ -1,15 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/entities/user.entity';
-import { AuthsModule } from './auths/auths.module';
 import { DataSource } from 'typeorm';
-import { Auth } from './auths/entities/auth.entity';
-import { ProfilesModule } from './profiles/profiles.module';
-import { Profile } from './profiles/entities/profile.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { ProfileModule } from './profile/profile.module';
+import { SkillModule } from './skill/skill.module';
+import { CompanyModule } from './company/company.module';
+import { JobModule } from './job/job.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -23,14 +24,18 @@ import { Profile } from './profiles/entities/profile.entity';
         username: configService.getOrThrow<string>('DB_USERNAME'),
         password: configService.getOrThrow<string>('DB_PASSWORD'),
         database: configService.getOrThrow<string>('DB_NAME'),
-        entities: [User, Auth, Profile],
+        autoLoadEntities: true,
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
-    UsersModule,
-    AuthsModule,
-    ProfilesModule,
+    AuthModule,
+    UserModule,
+    ProfileModule,
+    SkillModule,
+    CompanyModule,
+    JobModule,
+    AiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
