@@ -10,6 +10,7 @@ import { ProfileModule } from './profile/profile.module';
 import { SkillModule } from './skill/skill.module';
 import { CompanyModule } from './company/company.module';
 import { JobModule } from './job/job.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { JobModule } from './job/job.module';
     SkillModule,
     CompanyModule,
     JobModule,
+    AiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
