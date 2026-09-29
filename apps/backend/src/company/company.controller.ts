@@ -19,8 +19,10 @@ export class CompanyController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async createProfile(@Request() req, @Body() dto: CreateCompanyDto) {
+  async createCompany(@Request() req, @Body() dto: CreateCompanyDto) {
     await this.companyService.insertCompany(req.user, dto);
     return { message: 'Done' };
   }
+
+  
 }
