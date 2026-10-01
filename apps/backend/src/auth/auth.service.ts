@@ -51,7 +51,7 @@ export class AuthService {
 
   private readonly logger = new Logger(AuthService.name);
 
-  async create(data: CreateInput) {
+  create(data: CreateInput) {
     if (!data.hashedPassword && !data.providerUserId) {
       throw new BadRequestException(
         'Missing both hashed password and provider user id',
@@ -78,22 +78,21 @@ export class AuthService {
 
     const hashedPassword = await this.hashPassword(data.password);
 
-    const newUser = this.userService.create({
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      emailVerified: false,
-    });
-
-    const newAuth = this.create({
-      user: newUser,
-      providerType: ProviderType.PASSWORD,
-      hashedPassword: hashedPassword,
-    });
-
     try {
       await this.dataSource.transaction(async (manager) => {
-        await manager.save(newUser);
+        const newUser = this.userService.create({
+          email: data.email,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          emailVerified: false,
+        });
+        const savedUser = await manager.save(newUser);
+
+        const newAuth = this.create({
+          user: savedUser,
+          providerType: ProviderType.PASSWORD,
+          hashedPassword: hashedPassword,
+        });
         await manager.save(newAuth);
       });
     } catch (err) {
@@ -109,12 +108,13 @@ export class AuthService {
   async validatePasswordUser(
     data: ValidatePasswordUserInput,
   ): Promise<TokenPayload> {
+    const all = await this.authRepository.find({ relations: { user: true } });
     const auth = await this.authRepository.findOne({
+      relations: { user: true },
       where: {
         user: { email: data.email },
         provider_type: ProviderType.PASSWORD,
       },
-      relations: { user: true },
     });
 
     if (!auth) {
@@ -191,7 +191,7 @@ export class AuthService {
       });
     }
 
-    const newAuth = await this.create({
+    const newAuth = this.create({
       user: existUser,
       providerType: data.providerType,
       providerUserId: data.providerUserID,

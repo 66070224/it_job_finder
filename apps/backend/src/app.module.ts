@@ -11,6 +11,7 @@ import { SkillModule } from './skill/skill.module';
 import { CompanyModule } from './company/company.module';
 import { JobModule } from './job/job.module';
 import { AiModule } from './ai/ai.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { AiModule } from './ai/ai.module';
     CompanyModule,
     JobModule,
     AiModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

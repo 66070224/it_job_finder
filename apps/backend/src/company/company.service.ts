@@ -35,17 +35,16 @@ export class CompanyService {
 
   private readonly logger = new Logger(CompanyService.name);
 
-  createCompany(data: CreateCompanyDto, info: CompanyInfo) {
+  createCompany(data: CreateCompanyDto) {
     return this.companyRepository.create({
       name: data.name,
       logo_url: data.logo_url,
       address: data.address,
-      company_info: info,
     });
   }
 
-  createCompanyInfo() {
-    return this.companyInfoRepository.create();
+  createCompanyInfo(company: Company) {
+    return this.companyInfoRepository.create({ company: company });
   }
 
   createCompanyMember(
@@ -69,16 +68,17 @@ export class CompanyService {
 
     try {
       await this.dataSource.transaction(async (manager) => {
-        const newInfo = this.createCompanyInfo();
-        const newCompany = this.createCompany(data, newInfo);
+        const newCompany = this.createCompany(data);
+        const company = await manager.save(newCompany);
+        const newInfo = this.createCompanyInfo(company);
+        await manager.save(newInfo);
         const member = this.createCompanyMember(
           user,
-          newCompany,
+          company,
           CompanyMemberRole.OWNER,
           CompanyMemberStatus.ACCEPTED,
         );
-        await manager.save(newCompany);
-        await manager.save(newInfo);
+        await manager.save(member);
       });
     } catch (err) {
       this.logger.error(

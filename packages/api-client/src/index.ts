@@ -1,5 +1,6 @@
 import { cookies } from "next/headers.js";
 import { redirect } from "next/navigation.js";
+import { User } from "./interfaces/user.js";
 
 export async function createApi() {
   const backendUrl = process.env.BACKEND_URL!;
@@ -55,5 +56,13 @@ export async function createApi() {
       cookieStore.delete("access_token");
       cookieStore.delete("refresh_token");
     },
+    getSession: async() => {
+      const response = await request("/auth/session");
+      if (!response.ok) {
+        return null
+      }
+      const user: User|null = await response.json()
+      return user
+    }
   };
 }

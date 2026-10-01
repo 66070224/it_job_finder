@@ -6,7 +6,7 @@ import { PassportStrategy } from '@nestjs/passport';
 @Injectable()
 export class PasswordStrategy extends PassportStrategy(Strategy, 'password') {
   constructor(private authsService: AuthService) {
-    super();
+    super({ usernameField: 'email' });
   }
 
   validate(email: string, password: string) {
