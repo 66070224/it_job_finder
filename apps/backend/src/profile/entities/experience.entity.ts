@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -28,7 +29,11 @@ export class Experience {
   end_year!: number | null;
 
   @ManyToOne(() => Profile, (profile) => profile.experiences)
+  @JoinColumn({ name: 'profile_id', referencedColumnName: 'user_id' })
   profile!: Profile;
+
+  @Column({ type: 'uuid' })
+  profile_id!: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;

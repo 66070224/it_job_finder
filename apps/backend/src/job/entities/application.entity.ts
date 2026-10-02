@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -27,10 +28,18 @@ export class Application {
   id!: number;
 
   @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user!: User;
 
+  @Column({ type: 'uuid' })
+  user_id!: string;
+
   @ManyToOne(() => Job)
+  @JoinColumn({ name: 'job_id', referencedColumnName: 'id' })
   job!: Job;
+
+  @Column({ type: 'int' })
+  job_id!: number;
 
   @Column({
     type: 'enum',

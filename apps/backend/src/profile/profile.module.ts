@@ -9,13 +9,14 @@ import { AuthModule } from 'src/auth/auth.module';
 import { Skill } from 'src/skill/entities/skill.entity';
 import { SkillModule } from 'src/skill/skill.module';
 import { FileService } from 'src/file/file.service';
+import { FileModule } from 'src/file/file.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Profile, Education, Experience, Skill]),
     AuthModule,
     SkillModule,
-    FileService,
+    FileModule,
   ],
   controllers: [ProfileController],
   providers: [ProfileService],

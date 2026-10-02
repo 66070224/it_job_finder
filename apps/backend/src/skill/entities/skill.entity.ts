@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -15,7 +16,11 @@ export class Skill {
   name!: string;
 
   @ManyToOne(() => Category, (category) => category.skills)
+  @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category!: Category;
+
+  @Column({ type: 'int' })
+  category_id!: number;
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;

@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
@@ -15,14 +17,18 @@ export enum ProviderType {
 }
 
 @Entity()
-@Unique(['user', 'provider_type'])
+@Unique(['user_id', 'provider_type'])
 @Unique(['provider_type', 'provider_user_id'])
 export class Auth {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @ManyToOne(() => User, (user) => user.auth)
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user!: User;
+
+  @Column({ type: 'uuid' })
+  user_id!: string;
 
   @Column({ type: 'enum', enum: ProviderType })
   provider_type!: ProviderType;

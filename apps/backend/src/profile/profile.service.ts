@@ -39,7 +39,7 @@ export class ProfileService {
 
   createProfile(user: User, data: CreateProfileDto) {
     return this.profileRepository.create({
-      uid: user.id,
+      user_id: user.id,
       user: user,
       phone: data.phone,
       address: data.address || null,

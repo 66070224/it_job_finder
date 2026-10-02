@@ -19,13 +19,13 @@ import { File } from 'src/file/entities/file.entity';
 @Entity()
 export class Profile {
   @PrimaryColumn({ type: 'uuid' })
-  uid!: string;
+  user_id!: string;
 
   @OneToOne(() => User, (user) => user.profile, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({
-    name: 'uid',
+    name: 'user_id',
     referencedColumnName: 'id',
   })
   user!: User;
