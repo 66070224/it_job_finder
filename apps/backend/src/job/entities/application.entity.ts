@@ -22,7 +22,7 @@ export enum ApplicationStatus {
 }
 
 @Entity()
-@Unique(['user', 'job'])
+@Unique(['user_id', 'job_id'])
 export class Application {
   @PrimaryGeneratedColumn('increment')
   id!: number;
