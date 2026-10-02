@@ -53,6 +53,9 @@ export class Job {
   @OneToOne(() => JobInfo, (jobInfo) => jobInfo.job)
   job_info!: JobInfo;
 
+  @Column({ type: 'boolean', default: true })
+  status!: boolean;
+
   @CreateDateColumn()
   created_at!: Date;
 }

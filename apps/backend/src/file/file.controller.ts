@@ -16,14 +16,6 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class FileController {
   constructor(private readonly fileService: FileService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @Post()
-  @UseInterceptors(FileInterceptor('file'))
-  async upload(@Request() req, @UploadedFile() file: Express.Multer.File) {
-    const key = await this.fileService.upload(req.user, file);
-    return { key };
-  }
-
   @Get('url')
   async url(@Query('key') key: string) {
     return { url: await this.fileService.getPresignedUrl(key) };

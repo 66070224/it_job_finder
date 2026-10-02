@@ -3,12 +3,19 @@ import { ConfigService } from '@nestjs/config';
 import * as Minio from 'minio';
 import { extname } from 'path';
 import { User } from 'src/user/entities/user.entity';
+import { Repository } from 'typeorm';
+import { File } from './entities/file.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class FileService implements OnModuleInit {
   private client: Minio.Client;
   private bucket: string;
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    @InjectRepository(File) private readonly fileRepository: Repository<File>,
+  ) {
     this.bucket = this.configService.get('MINIO_BUCKET', 'uploads');
     this.client = new Minio.Client({
       endPoint: this.configService.get('MINIO_ENDPOINT', 'localhost'),
@@ -23,12 +30,18 @@ export class FileService implements OnModuleInit {
     if (!exists) await this.client.makeBucket(this.bucket);
   }
 
-  async upload(user: User, file: Express.Multer.File) {
-    const key = `${user.id}/${file.originalname}`;
+  create(key: string, name: string) {
+    return this.fileRepository.create({ key: key, name: name });
+  }
+
+  async upload(user: User, file: Express.Multer.File, name: string) {
+    const key = `${user.id}/${randomUUID()}`;
     await this.client.putObject(this.bucket, key, file.buffer, file.size, {
       'Content-Type': file.mimetype,
     });
-    return key;
+    const fileEntity = this.create(key, name);
+    this.fileRepository.save(fileEntity);
+    return fileEntity;
   }
 
   getPresignedUrl(key: string, expirySeconds = 3600) {

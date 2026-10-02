@@ -16,6 +16,7 @@ import { Experience } from './entities/experience.entity';
 import { AddSkillDto } from './dto/add-skill.dto';
 import { SkillService } from 'src/skill/skill.service';
 import { DataSource } from 'typeorm/browser';
+import { FileService } from 'src/file/file.service';
 
 @Injectable()
 export class ProfileService {
@@ -27,7 +28,8 @@ export class ProfileService {
     @InjectRepository(Experience)
     private readonly experienceRepository: Repository<Experience>,
 
-    private readonly SkillService: SkillService,
+    private readonly skillService: SkillService,
+    private readonly fileService: FileService,
 
     @InjectDataSource()
     private readonly dataSource: DataSource,
@@ -116,7 +118,7 @@ export class ProfileService {
 
     const newExperience = this.createExperience(profile, data);
 
-    return this.educationRepository.save(newExperience);
+    return this.experienceRepository.save(newExperience);
   }
 
   async insertSkill(user: User, data: AddSkillDto) {
@@ -128,9 +130,24 @@ export class ProfileService {
       throw new ConflictException('User missing profile');
     }
 
-    const skills = await this.SkillService.getManyById(data.ids);
+    const skills = await this.skillService.getManyById(data.ids);
     profile.skills.push(...skills);
+    await this.profileRepository.save(profile);
+    return skills;
+  }
 
-    return this.profileRepository.save(profile);
+  async insertFile(user: User, name: string, file: Express.Multer.File) {
+    const profile = await this.profileRepository.findOne({
+      where: { user: user },
+    });
+    if (!profile) {
+      throw new ConflictException('User missing profile');
+    }
+
+    const fileEntity = await this.fileService.upload(user, file, name);
+
+    profile.files.push(fileEntity);
+    await this.profileRepository.save(profile);
+    return profile.files;
   }
 }

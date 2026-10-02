@@ -16,5 +16,5 @@ export class JobInfo {
   job!: Job;
 
   @Column({ type: 'jsonb', nullable: true }) // Rich Text (ไม่รู้ว่าฝั่ง front จะใช้ rich text แบบไหน เลยเป็น any ไปก่อน)
-  description!: any | null;
+  description!: unknown | null;
 }

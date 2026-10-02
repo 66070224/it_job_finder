@@ -14,6 +14,7 @@ import {
 import { Education } from './education.entity';
 import { Experience } from './experience.entity';
 import { Skill } from 'src/skill/entities/skill.entity';
+import { File } from 'src/file/entities/file.entity';
 
 @Entity()
 export class Profile {
@@ -53,6 +54,9 @@ export class Profile {
 
   @OneToMany(() => Experience, (experience) => experience.profile)
   experiences!: Experience[];
+
+  @ManyToMany(() => File)
+  files!: File[];
 
   @CreateDateColumn({ type: 'timestamptz' })
   created_at!: Date;
