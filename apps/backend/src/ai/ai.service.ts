@@ -4,15 +4,14 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import OpenAI from 'openai';
-import type { Multer } from 'multer';
-import { Readable } from 'stream';
 
 @Injectable()
 export class AiService {
   constructor(@Inject('OPENAI_CLIENT') private readonly openai: OpenAI) {}
   async resumeParser(file: Express.Multer.File) {
     try {
-      const base64 = file.buffer.toString('base64');
+      const base64Data = file.buffer.toString('base64');
+      const dataUrl = `data:application/pdf;base64,${base64Data}`;
 
       const completion = await this.openai.chat.completions.create({
         model: 'xiaomi-mimo-v2-6-flash',
@@ -20,21 +19,21 @@ export class AiService {
           {
             role: 'system',
             content:
-              'You are resume parser, extract all data from user resume.',
+              'You are resume parser, extract all information from this PDF and format it neatly.',
           },
           {
             role: 'user',
             content: [
               {
-                type: 'file',
-                file: {
-                  filename: file.originalname,
-                  file_data: `data:${file.mimetype};base64,${base64}`,
+                type: 'image_url',
+                image_url: {
+                  url: dataUrl,
                 },
               },
             ],
           },
         ],
+        temperature: 0,
       });
 
       return completion.choices[0].message.content || '';
