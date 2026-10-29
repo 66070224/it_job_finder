@@ -21,7 +21,7 @@ import { FileModule } from './file/file.module';
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.getOrThrow<string>('DB_HOST'),
-        port: +(configService.getOrThrow<number>('DB_port') || 5432),
+        port: +(configService.getOrThrow<number>('DB_PORT') || 5432),
         username: configService.getOrThrow<string>('DB_USERNAME'),
         password: configService.getOrThrow<string>('DB_PASSWORD'),
         database: configService.getOrThrow<string>('DB_NAME'),
