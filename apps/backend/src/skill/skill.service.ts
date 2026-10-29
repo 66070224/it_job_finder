@@ -3,7 +3,7 @@ import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Skill } from './entities/skill.entity';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 
 @Injectable()
 export class SkillService {
@@ -22,5 +22,9 @@ export class SkillService {
 
   getAll() {
     return this.skillRepository.find();
+  }
+
+  getManyByName(name: string) {
+    return this.skillRepository.find({ where: { name: Like(name) } });
   }
 }
