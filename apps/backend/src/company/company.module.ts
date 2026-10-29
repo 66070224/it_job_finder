@@ -20,5 +20,6 @@ import { AuthModule } from 'src/auth/auth.module';
   ],
   controllers: [CompanyController],
   providers: [CompanyService],
+  exports: [CompanyService]
 })
 export class CompanyModule {}

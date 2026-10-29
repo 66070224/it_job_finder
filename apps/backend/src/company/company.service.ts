@@ -89,4 +89,11 @@ export class CompanyService {
       throw new InternalServerErrorException('Server error');
     }
   }
+
+  findByUser(user: User) {
+    return this.companyMemberRepository.findOne({
+      where: { user: user },
+      relations: { company: true },
+    });
+  }
 }
