@@ -73,4 +73,15 @@ export class JobService {
       throw new InternalServerErrorException('Server error');
     }
   }
+
+  getJob({ page, limit }: { page: number; limit?: number }) {
+    return this.jobRepository.find({
+      order: { created_at: 'ASC' },
+      skip: (page - 1) * 10,
+      take: limit ? limit : 10,
+      relations: {
+        company: true,
+      },
+    });
+  }
 }
