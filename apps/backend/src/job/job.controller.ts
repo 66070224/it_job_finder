@@ -10,18 +10,24 @@ import {
 import { JobService } from './job.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { updateStatusDTO } from './dto/update-status.dto';
 
 @Controller('job')
 export class JobController {
   constructor(private readonly jobService: JobService) {}
   @UseGuards(JwtAuthGuard)
   @Post()
-  createJob(@Request() req, @Body() dto: CreateJobDto) {
-    return this.jobService.addJob(dto, req.user);
+  async createJob(@Request() req, @Body() dto: CreateJobDto) {
+    const job_id = await this.jobService.addJob(dto, req.user);
+    return { success: true, data: { job_id } };
   }
 
   @Get()
   getJob(@Query('page') page: number, @Query('limit') limit?: number) {
     return this.jobService.getJob({ page, limit });
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('status')
+  updateStatus(@Request() req, @Body() dto: updateStatusDTO) {}
 }

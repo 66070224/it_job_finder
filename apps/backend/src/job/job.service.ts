@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   InternalServerErrorException,
@@ -12,6 +13,8 @@ import { User, UserRole } from 'src/user/entities/user.entity';
 import { Company } from 'src/company/entities/company.entity';
 import { JobInfo } from './entities/job_info.entity';
 import { CompanyService } from 'src/company/company.service';
+import { UpdateJobDto } from './dto/update-job.dto';
+import { updateStatusDTO } from './dto/update-status.dto';
 
 @Injectable()
 export class JobService {
@@ -56,13 +59,13 @@ export class JobService {
     if (!userCompany) {
       throw new ConflictException("User don't have company");
     }
-
     try {
-      await this.dataSource.transaction(async (manager) => {
+      return await this.dataSource.transaction(async (manager) => {
         const newJob = this.createJob(data, userCompany.company);
         const job = await manager.save(newJob);
         const newInfo = this.createJobInfo(data.description, job);
         await manager.save(newInfo);
+        return job.id;
       });
     } catch (err) {
       this.logger.error(
@@ -83,5 +86,29 @@ export class JobService {
         company: true,
       },
     });
+  }
+
+  async updateJobStatus({ user, dto }: { user: User; dto: updateStatusDTO }) {
+    if (user.role != UserRole.COMPANY) {
+      throw new ConflictException('User is not company');
+    }
+
+    const userCompany = await this.companyService.findByUser(user);
+    if (!userCompany) {
+      throw new ConflictException("User don't have company");
+    }
+
+    const job = await this.jobRepository.findOne({ where: { id: dto.job_id } });
+    if (!job) {
+      throw new ConflictException('Job not exist');
+    }
+
+    if (job.company_id !== userCompany.id) {
+      throw new BadRequestException("This job not belong to user's company");
+    }
+
+    await this.jobRepository.update(job.id, { status: dto.status });
+
+    return {};
   }
 }
