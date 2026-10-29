@@ -5,9 +5,21 @@ import { User } from "./interfaces/user.js";
 export async function createApi() {
   const backendUrl = process.env.BACKEND_URL!;
 
-  const request = async (path: string, options?: RequestInit) => {
+  const request = async ({
+    path,
+    options,
+    searchParams,
+  }: {
+    path: string;
+    options?: RequestInit;
+    searchParams?: ConstructorParameters<typeof URLSearchParams>[0];
+  }) => {
+    const url = new URL(`${backendUrl}${path}`);
+    if (searchParams) {
+      url.search = new URLSearchParams(searchParams).toString();
+    }
     const cookieStore = await cookies();
-    return fetch(`${backendUrl}${path}`, {
+    return fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
@@ -20,17 +32,26 @@ export async function createApi() {
   const redirectTo = (path: string) => redirect(`${backendUrl}${path}`);
 
   return {
-    get: (path: string) => request(path),
+    get: (
+      path: string,
+      searchParams?: ConstructorParameters<typeof URLSearchParams>[0],
+    ) => request({ path, searchParams }),
     post: (path: string, body?: unknown) =>
-      request(path, {
-        method: "POST",
-        body: body ? JSON.stringify(body) : undefined,
+      request({
+        path,
+        options: {
+          method: "POST",
+          body: body ? JSON.stringify(body) : undefined,
+        },
       }),
     redirect: (path: string) => redirectTo(path),
     signin: async (email: string, password: string) => {
-      const response = await request("/auth/signin", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
+      const response = await request({
+        path: "/auth/signin",
+        options: {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+        },
       });
       if (!response.ok) {
         return { success: false, status: response.status };
@@ -56,13 +77,13 @@ export async function createApi() {
       cookieStore.delete("access_token");
       cookieStore.delete("refresh_token");
     },
-    getSession: async() => {
-      const response = await request("/auth/session");
+    getSession: async () => {
+      const response = await request({ path: "/auth/session" });
       if (!response.ok) {
-        return null
+        return null;
       }
-      const user: User|null = await response.json()
-      return user
-    }
+      const user: User | null = await response.json();
+      return user;
+    },
   };
 }
