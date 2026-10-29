@@ -1,6 +1,7 @@
 services:
   minio:
-    image: coollabsio/minio:latest # Updated image source
+    image: coollabsio/minio:latest
+    container_name: it_job_finder_minio
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -11,5 +12,16 @@ services:
     volumes:
       - minio-data:/data
 
+  db:
+    image: postgres:latest
+    container_name: it_job_finder_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres-data:/var/lib/postgresql
+
 volumes:
   minio-data:
+  postgres-data:
