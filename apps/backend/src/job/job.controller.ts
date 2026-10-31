@@ -11,6 +11,7 @@ import { JobService } from './job.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { updateStatusDTO } from './dto/update-status.dto';
+import { CreateApplicationDTO } from './dto/create-application.dto';
 
 @Controller('job')
 export class JobController {
@@ -29,5 +30,14 @@ export class JobController {
 
   @UseGuards(JwtAuthGuard)
   @Post('status')
-  updateStatus(@Request() req, @Body() dto: updateStatusDTO) {}
+  updateStatus(@Request() req, @Body() dto: updateStatusDTO) {
+    return this.jobService.updateJobStatus({ user: req.user, dto });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('application')
+  async applyApplication(@Request() req, @Body() dto: CreateApplicationDTO) {
+    const id = await this.jobService.applyApplication({ user: req.user, dto });
+    return { success: true, data: { application_id: id } };
+  }
 }

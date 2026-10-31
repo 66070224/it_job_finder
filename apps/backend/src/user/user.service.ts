@@ -74,4 +74,18 @@ export class UserService {
       email_verified: data.emailVerified,
     });
   }
+
+  getSnapshot({ id }: { id: string }) {
+    return this.userRepository.findOne({
+      where: { id },
+      relations: {
+        profile: {
+          files: true,
+          skills: true,
+          experiences: true,
+          educations: true,
+        },
+      },
+    });
+  }
 }

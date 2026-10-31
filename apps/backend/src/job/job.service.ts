@@ -13,8 +13,11 @@ import { User, UserRole } from 'src/user/entities/user.entity';
 import { Company } from 'src/company/entities/company.entity';
 import { JobInfo } from './entities/job_info.entity';
 import { CompanyService } from 'src/company/company.service';
-import { UpdateJobDto } from './dto/update-job.dto';
 import { updateStatusDTO } from './dto/update-status.dto';
+import { CreateApplicationDTO } from './dto/create-application.dto';
+import { Application } from './entities/application.entity';
+import { UserService } from 'src/user/user.service';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class JobService {
@@ -22,7 +25,10 @@ export class JobService {
     @InjectRepository(Job) private readonly jobRepository: Repository<Job>,
     @InjectRepository(JobInfo)
     private readonly jobInfoRepository: Repository<JobInfo>,
+    @InjectRepository(Application)
+    private readonly applicationRepository: Repository<Application>,
     private readonly companyService: CompanyService,
+    private readonly userService: UserService,
 
     @InjectDataSource()
     private readonly dataSource: DataSource,
@@ -52,7 +58,7 @@ export class JobService {
 
   async addJob(data: CreateJobDto, user: User) {
     if (user.role != UserRole.COMPANY) {
-      throw new ConflictException('User is not company');
+      throw new BadRequestException('User is not company');
     }
 
     const userCompany = await this.companyService.findByUser(user);
@@ -110,5 +116,58 @@ export class JobService {
     await this.jobRepository.update(job.id, { status: dto.status });
 
     return {};
+  }
+
+  createApplication({
+    user,
+    dto,
+    snapshot,
+  }: {
+    user: User;
+    snapshot: Record<string, unknown>;
+    dto: CreateApplicationDTO;
+  }) {
+    return this.applicationRepository.create({
+      user: user,
+      job_id: dto.job_id,
+      profile_snapshot: snapshot,
+      message: dto.message,
+    });
+  }
+
+  async applyApplication({
+    user,
+    dto,
+  }: {
+    user: User;
+    dto: CreateApplicationDTO;
+  }) {
+    if (user.role !== UserRole.JOB_SEEKER) {
+      throw new BadRequestException('User is not job seeker');
+    }
+
+    const existedApplication = await this.applicationRepository.findOne({
+      where: { user_id: user.id, job_id: dto.job_id },
+    });
+
+    if (existedApplication) {
+      throw new ConflictException('User already applied for this job');
+    }
+
+    const snapshot = await this.userService.getSnapshot({ id: user.id });
+
+    if (!snapshot) {
+      throw new ConflictException('missing user and profile');
+    }
+
+    const newApplication = this.createApplication({
+      user,
+      dto,
+      snapshot: instanceToPlain(snapshot),
+    });
+
+    const application = await this.applicationRepository.save(newApplication);
+
+    return application.id;
   }
 }
