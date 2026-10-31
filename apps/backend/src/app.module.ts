@@ -12,6 +12,7 @@ import { CompanyModule } from './company/company.module';
 import { JobModule } from './job/job.module';
 import { AiModule } from './ai/ai.module';
 import { FileModule } from './file/file.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { FileModule } from './file/file.module';
     JobModule,
     AiModule,
     FileModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
